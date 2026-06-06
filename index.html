@@ -3,178 +3,718 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Интан CMS — Панель управления</title>
+  <title>Стоматологическая клиника Интан — Ош, Кыргызстан</title>
+  <meta name="description" content="Стоматологическая клиника Интан в Оше — современное безболезненное лечение зубов, имплантация, отбеливание Zoom 4, виниры и брекеты. Запишитесь онлайн. Адрес: ул. Аскар Шакирова, 271." />
+  <meta property="og:title" content="Стоматологическая клиника Интан — Ош" />
+  <meta property="og:description" content="Современная премиальная стоматология в городе Ош. Безболезненное лечение, опытные врачи, имплантация и гарантия качества." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://intan.kg" />
+  <meta property="og:image" content="https://intan.kg/og-image.jpg" />
+  <meta name="theme-color" content="#0369a1" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦷</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&family=JetBrains+Mono:wght=400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/admin.css" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalClinic",
+    "name": "Стоматологическая клиника Интан",
+    "description": "Премиальная стоматологическая клиника в городе Ош, Кыргызстан. Все виды лечения, опытные специалисты.",
+    "url": "https://intan.kg",
+    "telephone": "+996500000000",
+    "email": "info@intan.kg",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ул. Аскар Шакирова, 271",
+      "addressLocality": "Ош",
+      "addressCountry": "KG"
+    },
+    "openingHours": "Mo-Sa 09:00-18:00",
+    "medicalSpecialty": "Dentistry"
+  }
+  </script>
 </head>
 <body>
 
-<div class="auth-screen" id="authScreen">
-  <div class="auth-bg">
-    <div class="auth-orb auth-orb--1"></div>
-    <div class="auth-orb auth-orb--2"></div>
-  </div>
-  <div class="auth-card">
-    <div class="auth-logo">
-      <span class="auth-logo__icon">🦷</span>
-      <div>
-        <span class="auth-logo__name">Интан</span>
-        <span class="auth-logo__sub">Система управления клиникой</span>
-      </div>
-    </div>
-    <h2 class="auth-title">Вход в систему</h2>
-    <form id="loginForm" class="auth-form">
-      <div class="form-group">
-        <label class="form-label">Email</label>
-        <input type="email" id="loginEmail" class="form-input" placeholder="doctor@intan.kg" autocomplete="username" required />
-      </div>
-      <div class="form-group">
-        <label class="form-label">Пароль</label>
-        <div class="input-eye-wrap">
-          <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" autocomplete="current-password" required />
-          <button type="button" class="eye-btn" id="eyeBtn">👁</button>
-        </div>
-      </div>
-      <div class="auth-error" id="authError"></div>
-      <button type="submit" class="btn-primary btn-block" id="loginBtn">
-        <span id="loginBtnText">Войти</span>
-        <span id="loginSpinner" class="spinner" hidden></span>
-      </button>
-    </form>
-    <p class="auth-demo">
-      <strong>Demo:</strong> chief@intan.kg / doctor@intan.kg / admin@intan.kg<br/>
-      <em>Пароль: demo123</em>
-    </p>
-  </div>
-</div>
-
-<div class="app" id="app" hidden>
-
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar__header">
-      <a href="#" class="sidebar__logo" data-page="dashboard">
-        <span class="sidebar__logo-icon">🦷</span>
-        <span class="sidebar__logo-text">Интан</span>
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#" class="logo">
+        <span class="logo__icon">🦷</span>
+        <span class="logo__text">Интан</span>
       </a>
-      <button class="sidebar__collapse" id="sidebarCollapse" aria-label="Свернуть меню">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
+      <nav class="nav" id="nav">
+        <a href="#advantages" class="nav__link">Преимущества</a>
+        <a href="#services" class="nav__link">Услуги</a>
+        <a href="#doctors" class="nav__link">Врачи</a>
+        <a href="#reviews" class="nav__link">Отзывы</a>
+        <a href="#gallery" class="nav__link">Галерея</a>
+        <a href="#faq" class="nav__link">FAQ</a>
+        <a href="#contacts" class="nav__link">Контакты</a>
+      </nav>
+      <div class="header__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
+          <span class="theme-toggle__moon">🌙</span>
+          <span class="theme-toggle__sun">☀️</span>
+        </button>
+        <a href="tel:+996500000000" class="btn btn--outline btn--sm">Позвонить</a>
+        <a href="#appointment" class="btn btn--primary btn--sm">Записаться</a>
+        <button class="burger" id="burger" aria-label="Открыть меню">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
+  </header>
 
-    <nav class="sidebar__nav">
-      <div class="nav-section">
-        <span class="nav-section__label">Главная</span>
-        <a class="nav-link active" data-page="dashboard">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-          <span>Дашборд</span>
-        </a>
-      </div>
-
-      <div class="nav-section">
-        <span class="nav-section__label">Клиника</span>
-        <a class="nav-link" data-page="appointments">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          <span>Записи</span>
-          <span class="nav-badge" id="pendingBadge">0</span>
-        </a>
-        <a class="nav-link" data-page="patients">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          <span>Пациенты</span>
-        </a>
-        <a class="nav-link" data-page="doctors">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 3.87 2.48 7.17 6 8.59V22h2v-4.41c3.52-1.42 6-4.72 6-8.59 0-3.87-3.13-7-7-7z"/></svg>
-          <span>Врачи</span>
-        </a>
-      </div>
-
-      <div class="nav-section" id="navFinance">
-        <span class="nav-section__label">Управление</span>
-        <a class="nav-link" data-page="services">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-          <span>Прайс-лист</span>
-        </a>
-        <a class="nav-link nav-link--chief" data-page="finance">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-          <span>Финансы</span>
-        </a>
-        <a class="nav-link nav-link--chief" data-page="users">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <span>Сотрудники</span>
-        </a>
-        <a class="nav-link nav-link--chief" data-page="logs">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          <span>Журнал</span>
-        </a>
-      </div>
-    </nav>
-
-    <div class="sidebar__footer">
-      <div class="user-card">
-        <div class="user-card__avatar" id="sidebarAvatar">ГВ</div>
-        <div class="user-card__info">
-          <span class="user-card__name" id="sidebarName">Загрузка...</span>
-          <span class="user-card__role" id="sidebarRole"></span>
+  <section class="hero" id="home">
+    <div class="hero__bg">
+      <div class="hero__mesh"></div>
+      <div class="hero__lines"></div>
+      <div class="hero__orb hero__orb--1"></div>
+      <div class="hero__orb hero__orb--2"></div>
+      <div class="hero__orb hero__orb--3"></div>
+    </div>
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <div class="hero__badge reveal">
+          <span class="badge__dot"></span>
+          Премиальная стоматология в Оше
+        </div>
+        <h1 class="hero__title reveal">
+          Стоматологическая<br />клиника <em>Интан</em>
+        </h1>
+        <p class="hero__subtitle reveal">
+          Современная стоматология в городе Ош. Инновационные технологии, абсолютный комфорт и забота о здоровье вашей улыбки на высшем уровне.
+        </p>
+        <div class="hero__actions reveal">
+          <a href="#appointment" class="btn btn--primary btn--lg">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 4H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM16 2v4M8 2v4M3 10h18"/></svg>
+            Записаться на прием
+          </a>
+          <a href="tel:+996500000000" class="btn btn--glass btn--lg">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            Позвонить
+          </a>
+        </div>
+        <div class="hero__stats reveal">
+          <div class="hero__stat">
+            <div><span class="hero__stat-num counter" data-target="15">0</span><span class="plus">+</span></div>
+            <span class="hero__stat-label">Опытных врачей</span>
+          </div>
+          <div class="hero__stat-divider"></div>
+          <div class="hero__stat">
+            <div><span class="hero__stat-num counter" data-target="98">0</span><span class="plus">%</span></div>
+            <span class="hero__stat-label">Довольных пациентов</span>
+          </div>
+          <div class="hero__stat-divider"></div>
+          <div class="hero__stat">
+            <div><span class="hero__stat-num counter" data-target="100">0</span><span class="plus">%</span></div>
+            <span class="hero__stat-label">Гарантия качества</span>
+          </div>
         </div>
       </div>
-      <button class="sidebar__logout" id="logoutBtn" aria-label="Выйти">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      </button>
-    </div>
-  </aside>
-
-  <main class="main" id="main">
-    <header class="topbar">
-      <button class="topbar__burger" id="mobileBurger" aria-label="Меню">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-      <div class="topbar__title" id="pageTitle">Дашборд</div>
-      <div class="topbar__actions">
-        <button class="topbar__btn" id="themeBtn" aria-label="Тема">
-          <span id="themeIcon">🌙</span>
-        </button>
-        <button class="topbar__btn topbar__notif" id="notifBtn" aria-label="Уведомления">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-          <span class="notif-dot" id="notifDot" hidden></span>
-        </button>
+      <div class="hero__visual reveal">
+        <div class="hero__card hero__card--main">
+          <div class="hero__card-icon">🦷</div>
+          <div class="hero__card-text">
+            <strong>Безболезненное лечение</strong>
+            <span>Цифровая анестезия STA</span>
+          </div>
+        </div>
+        <div class="hero__card hero__card--float hero__card--float-1">
+          <div class="hero__card-icon">✨</div>
+          <div class="hero__card-text">
+            <strong>Эстетика</strong>
+            <span>Белоснежная улыбка</span>
+          </div>
+        </div>
+        <div class="hero__card hero__card--float hero__card--float-2">
+          <div class="hero__card-icon">🏆</div>
+          <div class="hero__card-text">
+            <strong>Premium статус</strong>
+            <span>Мировые стандарты</span>
+          </div>
+        </div>
+        <div class="hero__teeth-visual">
+          <svg viewBox="0 0 200 200" class="hero__svg" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="toothGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:var(--c-primary-2); stop-opacity: 0.2"/>
+                <stop offset="100%" style="stop-color:var(--c-accent); stop-opacity: 0.05"/>
+              </linearGradient>
+            </defs>
+            <circle cx="100" cy="100" r="85" fill="url(#toothGrad)"/>
+            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="95">🦷</text>
+          </svg>
+        </div>
       </div>
-    </header>
-
-    <div class="page-container">
-      <div id="page-dashboard" class="page active"></div>
-      <div id="page-appointments" class="page"></div>
-      <div id="page-patients" class="page"></div>
-      <div id="page-patient-detail" class="page"></div>
-      <div id="page-doctors" class="page"></div>
-      <div id="page-services" class="page"></div>
-      <div id="page-finance" class="page"></div>
-      <div id="page-users" class="page"></div>
-      <div id="page-logs" class="page"></div>
     </div>
-  </main>
-</div>
+  </section>
 
-<div class="modal-overlay" id="modalOverlay" hidden>
-  <div class="modal" id="modal">
-    <div class="modal__header">
-      <h3 class="modal__title" id="modalTitle"></h3>
-      <button class="modal__close" id="modalClose">✕</button>
+  <section class="advantages section" id="advantages">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">Качество и инновации</span>
+        <h2 class="section-title">Почему выбирают клинику <em>Интан</em></h2>
+        <p class="section-sub">Мы объединили передовые технологии и высочайший уровень сервиса для вашего комфорта.</p>
+      </div>
+      <div class="advantages__grid">
+        <div class="advantage-card reveal">
+          <div class="advantage-card__icon">⚡</div>
+          <h3>Современное оборудование</h3>
+          <p>Использование сертифицированных 3D-томографов, дентальных микроскопов и лазерных установок ведущих брендов.</p>
+        </div>
+        <div class="advantage-card reveal">
+          <div class="advantage-card__icon">👨‍⚕️</div>
+          <h3>Опытные специалисты</h3>
+          <p>Наши доктора регулярно проходят стажировки в Европе и странах Азии, обладая многолетним клиническим опытом.</p>
+        </div>
+        <div class="advantage-card reveal">
+          <div class="advantage-card__icon">💉</div>
+          <h3>Безболезненное лечение</h3>
+          <p>Применение компьютерной анестезии STA и седации позволяет полностью исключить страх и болевые ощущения.</p>
+        </div>
+        <div class="advantage-card reveal">
+          <div class="advantage-card__icon">🎯</div>
+          <h3>Индивидуальный подход</h3>
+          <p>Составляем комплексный пошаговый план лечения на основе консилиума нескольких профильных специалистов.</p>
+        </div>
+        <div class="advantage-card reveal">
+          <div class="advantage-card__icon">🏅</div>
+          <h3>Гарантия качества</h3>
+          <p>Мы официально предоставляем расширенную юридическую гарантию на имплантацию и все виды протезирования.</p>
+        </div>
+        <div class="advantage-card reveal">
+          <div class="advantage-card__icon">📱</div>
+          <h3>Удобная запись</h3>
+          <p>Мгновенное бронирование времени через сайт, вежливые напоминания и полное отсутствие очередей.</p>
+        </div>
+      </div>
     </div>
-    <div class="modal__body" id="modalBody"></div>
+  </section>
+
+  <section class="services section" id="services">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">Направления лечения</span>
+        <h2 class="section-title">Высокотехнологичные <em>услуги</em></h2>
+        <p class="section-sub">Забота о здоровье зубов и создание безупречной эстетики вашей улыбки.</p>
+      </div>
+      <div class="services__grid">
+        <div class="service-card reveal">
+          <div class="service-card__top">
+            <div class="service-card__icon">💎</div>
+            <div class="service-card__badge">Популярно</div>
+          </div>
+          <h3>Лечение кариеса</h3>
+          <p>Избавление от кариеса и пульпита под микроскопом с восстановлением анатомической формы зуба ультрасовременными материалами.</p>
+          <a href="#appointment" class="service-card__link">Записаться →</a>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-card__top">
+            <div class="service-card__icon">✨</div>
+          </div>
+          <h3>Профессиональная чистка</h3>
+          <p>Удаление налёта и камня по швейцарскому протоколу GBT с использованием AirFlow и бережной ультразвуковой полировки.</p>
+          <a href="#appointment" class="service-card__link">Записаться →</a>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-card__top">
+            <div class="service-card__icon">🌟</div>
+          </div>
+          <h3>Отбеливание зубов</h3>
+          <p>Инновационная щадящая система Zoom 4. Осветление эмали до 8-10 тонов всего за один визит без повышения чувствительности.</p>
+          <a href="#appointment" class="service-card__link">Записаться →</a>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-card__top">
+            <div class="service-card__icon">🔩</div>
+            <div class="service-card__badge service-card__badge--premium">Premium</div>
+          </div>
+          <h3>Имплантация</h3>
+          <p>Восстановление утраченных зубов за 1 день с использованием премиальных имплантационных систем со стопроцентной приживаемостью.</p>
+          <a href="#appointment" class="service-card__link">Записаться →</a>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-card__top">
+            <div class="service-card__icon">😁</div>
+          </div>
+          <h3>Брекет-системы</h3>
+          <p>Исправление прикуса любой сложности с помощью современных незаметных брекетов или прозрачных цифровых элайнеров.</p>
+          <a href="#appointment" class="service-card__link">Записаться →</a>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-card__top">
+            <div class="service-card__icon">🧒</div>
+          </div>
+          <h3>Детская стоматология</h3>
+          <p>Лечение молочных зубов без сверления и боли в адаптационной игровой форме. Формируем только приятные ассоциации.</p>
+          <a href="#appointment" class="service-card__link">Записаться →</a>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-card__top">
+            <div class="service-card__icon">🩹</div>
+          </div>
+          <h3>Удаление зубов</h3>
+          <p>Атравматичные и быстрые хирургические операции любого уровня сложности, включая удаление ретинированных зубов мудрости.</p>
+          <a href="#appointment" class="service-card__link">Записаться →</a>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-card__top">
+            <div class="service-card__icon">👑</div>
+            <div class="service-card__badge service-card__badge--premium">Premium</div>
+          </div>
+          <h3>Протезирование</h3>
+          <p>Установка высокопрочных циркониевых коронок и тончайших керамических виниров E.max для создания идеальной улыбки.</p>
+          <a href="#appointment" class="service-card__link">Записаться →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="doctors section" id="doctors">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">Экспертиза</span>
+        <h2 class="section-title">Наши выдающиеся <em>врачи</em></h2>
+        <p class="section-sub">Ваше здоровье в надежных руках сертифицированных экспертов с международным признанием.</p>
+      </div>
+      <div class="doctors__grid">
+        <div class="doctor-card reveal">
+          <div class="doctor-card__photo">
+            <div class="doctor-card__avatar">
+              <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="60" r="60" fill="url(#docGrad1)"/>
+                <defs><linearGradient id="docGrad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#0369a1"/><stop offset="100%" style="stop-color:#0ea5e9"/></linearGradient></defs>
+                <circle cx="60" cy="45" r="20" fill="rgba(255,255,255,0.9)"/>
+                <ellipse cx="60" cy="95" rx="30" ry="22" fill="rgba(255,255,255,0.9)"/>
+              </svg>
+            </div>
+            <div class="doctor-card__exp">Опыт: 12 лет</div>
+          </div>
+          <div class="doctor-card__info">
+            <h3>Айгуль Мамытова</h3>
+            <span class="doctor-card__spec">Главный врач · Терапевт-эндодонтист</span>
+            <p>Эксперт в области микроскопического лечения каналов зубов и сложной художественной реставрации.</p>
+            <div class="doctor-card__tags">
+              <span>Эстетика</span><span>Микроскоп</span>
+            </div>
+            <a href="#appointment" class="btn btn--primary btn--sm btn--full">Записаться</a>
+          </div>
+        </div>
+        <div class="doctor-card reveal">
+          <div class="doctor-card__photo">
+            <div class="doctor-card__avatar">
+              <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="60" r="60" fill="url(#docGrad2)"/>
+                <defs><linearGradient id="docGrad2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#0891b2"/><stop offset="100%" style="stop-color:#06b6d4"/></linearGradient></defs>
+                <circle cx="60" cy="45" r="20" fill="rgba(255,255,255,0.9)"/>
+                <ellipse cx="60" cy="95" rx="30" ry="22" fill="rgba(255,255,255,0.9)"/>
+              </svg>
+            </div>
+            <div class="doctor-card__exp">Опыт: 15 лет</div>
+          </div>
+          <div class="doctor-card__info">
+            <h3>Бекзод Рахимов</h3>
+            <span class="doctor-card__spec">Челюстно-лицевой хирург · Имплантолог</span>
+            <p>Проводит сложнейшие операции по костной пластике, синус-лифтингу и тотальному восстановлению зубов.</p>
+            <div class="doctor-card__tags">
+              <span>Имплантация</span><span>Хирургия</span>
+            </div>
+            <a href="#appointment" class="btn btn--primary btn--sm btn--full">Записаться</a>
+          </div>
+        </div>
+        <div class="doctor-card reveal">
+          <div class="doctor-card__photo">
+            <div class="doctor-card__avatar">
+              <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="60" r="60" fill="url(#docGrad3)"/>
+                <defs><linearGradient id="docGrad3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#0284c7"/><stop offset="100%" style="stop-color:#38bdf8"/></linearGradient></defs>
+                <circle cx="60" cy="45" r="20" fill="rgba(255,255,255,0.9)"/>
+                <ellipse cx="60" cy="95" rx="30" ry="22" fill="rgba(255,255,255,0.9)"/>
+              </svg>
+            </div>
+            <div class="doctor-card__exp">Опыт: 9 лет</div>
+          </div>
+          <div class="doctor-card__info">
+            <h3>Нурбек Асанов</h3>
+            <span class="doctor-card__spec">Стоматолог-ортопед</span>
+            <p>Специализируется на создании идеальных «улыбок Голливуда» при помощи ультратонких виниров и коронок.</p>
+            <div class="doctor-card__tags">
+              <span>Виниры</span><span>Протезирование</span>
+            </div>
+            <a href="#appointment" class="btn btn--primary btn--sm btn--full">Записаться</a>
+          </div>
+        </div>
+        <div class="doctor-card reveal">
+          <div class="doctor-card__photo">
+            <div class="doctor-card__avatar">
+              <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="60" r="60" fill="url(#docGrad4)"/>
+                <defs><linearGradient id="docGrad4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#0d9488"/><stop offset="100%" style="stop-color:#14b8a6"/></linearGradient></defs>
+                <circle cx="60" cy="45" r="20" fill="rgba(255,255,255,0.9)"/>
+                <ellipse cx="60" cy="95" rx="30" ry="22" fill="rgba(255,255,255,0.9)"/>
+              </svg>
+            </div>
+            <div class="doctor-card__exp">Опыт: 10 лет</div>
+          </div>
+          <div class="doctor-card__info">
+            <h3>Елена Ким</h3>
+            <span class="doctor-card__spec">Врач-ортодонт</span>
+            <p>Применяет передовые 3D-технологии моделирования прикуса для эффективного выравнивания зубов.</p>
+            <div class="doctor-card__tags">
+              <span>Брекеты</span><span>Элайнеры</span>
+            </div>
+            <a href="#appointment" class="btn btn--primary btn--sm btn--full">Записаться</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="appointment section" id="appointment">
+    <div class="container">
+      <div class="appointment__grid">
+        <div class="appointment__info reveal">
+          <span class="section-tag">Онлайн запись</span>
+          <h2 class="section-title">Сделайте первый шаг к идеальной <em>улыбке</em></h2>
+          <p>Заполните форму, выберите нужную медицинскую услугу и удобное время. Наш координатор свяжется с вами в течение 5 минут для подтверждения бронирования.</p>
+          <div class="appointment__contacts-list">
+            <div class="appointment__contact-item">
+              <span class="contact-item__icon">📞</span>
+              <div>
+                <strong>Телефон рецепции:</strong>
+                <span>+996 500 000 000</span>
+              </div>
+            </div>
+            <div class="appointment__contact-item">
+              <span class="contact-item__icon">📍</span>
+              <div>
+                <strong>Наш точный адрес:</strong>
+                <span>г. Ош, ул. Аскар Шакирова, 271</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="appointment__card reveal">
+          <form class="form" id="appointmentForm" novalidate>
+            <div class="form__group">
+              <label for="formName" class="form__label">Ваше имя</label>
+              <input type="text" id="formName" class="form__input" placeholder="Иван Иванов" required />
+            </div>
+            <div class="form__group">
+              <label for="formPhone" class="form__label">Номер телефона</label>
+              <input type="tel" id="formPhone" class="form__input" placeholder="+996 (555) 01-02-03" required />
+            </div>
+            <div class="form__group">
+              <label for="formService" class="form__label">Выберите услугу</label>
+              <select id="formService" class="form__input form__select" required>
+                <option value="" disabled selected>Выберите направление</option>
+                <option value="Лечение кариеса">Лечение кариеса</option>
+                <option value="Профессиональная чистка">Профессиональная чистка зубов</option>
+                <option value="Отбеливание зубов">Отбеливание зубов Zoom 4</option>
+                <option value="Имплантация">Дентальная имплантация</option>
+                <option value="Брекет-системы">Установка брекетов / Элайнеров</option>
+                <option value="Детская стоматология">Детская стоматология</option>
+                <option value="Удаление зубов">Атравматичное удаление зуба</option>
+                <option value="Протезирование">Коронки / Виниры / Протезирование</option>
+              </select>
+            </div>
+            <div class="form__group">
+              <label for="formDate" class="form__label">Желаемая дата приема</label>
+              <input type="date" id="formDate" class="form__input" required />
+            </div>
+            <button type="submit" class="btn btn--primary btn--lg btn--full">Подтвердить запись онлайн</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reviews section" id="reviews">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">Отзывы пациентов</span>
+        <h2 class="section-title">Истории счастливых <em>улыбок</em></h2>
+        <p class="section-sub">Реальные отзывы людей, которые доверили здоровье своих зубов специалистам клиники «Интан».</p>
+      </div>
+      <div class="reviews__wrapper">
+        <div class="reviews__grid">
+          <div class="review-card reveal">
+            <div class="review-card__header">
+              <div class="review-card__meta">
+                <strong>Мария К.</strong>
+                <span>Лечение кариеса</span>
+              </div>
+              <div class="review-card__rating">⭐⭐⭐⭐⭐</div>
+            </div>
+            <p>Лечила сложный кариес у Айгуль Мамытовой. Абсолютно не больно! Впервые в жизни я засыпала в кресле стоматолога. Очень благодарна за такое трепетное отношение.</p>
+          </div>
+          <div class="review-card reveal">
+            <div class="review-card__header">
+              <div class="review-card__meta">
+                <strong>Алибек Ж.</strong>
+                <span>Имплантация зубов</span>
+              </div>
+              <div class="review-card__rating">⭐⭐⭐⭐⭐</div>
+            </div>
+            <p>Ставил два импланта у Бекзода Рахимова. Операция прошла на удивление быстро, отёка практически не было. Доктор настоящий мастер своего дела, рекомендую клинику Интан!</p>
+          </div>
+          <div class="review-card reveal">
+            <div class="review-card__header">
+              <div class="review-card__meta">
+                <strong>Нургуль С.</strong>
+                <span>Отбеливание Zoom 4</span>
+              </div>
+              <div class="review-card__rating">⭐⭐⭐⭐⭐</div>
+            </div>
+            <p>Сделала отбеливание Zoom 4 перед свадьбой. Зубы стали идеально белыми, результат превзошел все ожидания! Чувствительности после процедуры не возникло.</p>
+          </div>
+          <div class="review-card reveal">
+            <div class="review-card__header">
+              <div class="review-card__meta">
+                <strong>Дмитрий П.</strong>
+                <span>Керамические виниры</span>
+              </div>
+              <div class="review-card__rating">⭐⭐⭐⭐⭐</div>
+            </div>
+            <p>Нурбек Асанов установил мне виниры на передние зубы. Это просто фантастическая ювелирная работа, выглядят как полностью свои натуральные зубы. Сервис люкс уровня.</p>
+          </div>
+          <div class="review-card reveal">
+            <div class="review-card__header">
+              <div class="review-card__meta">
+                <strong>Айжамал М.</strong>
+                <span>Исправление прикуса</span>
+              </div>
+              <div class="review-card__rating">⭐⭐⭐⭐⭐</div>
+            </div>
+            <p>Прохожу лечение на брекетах у Елены Ким. Уже спустя 4 месяца вижу колоссальную разницу, зубы заметно выровнялись. Каждое посещение клиники приносит радость.</p>
+          </div>
+          <div class="review-card reveal">
+            <div class="review-card__header">
+              <div class="review-card__meta">
+                <strong>Эльдияр Т.</strong>
+                <span>Профессиональная чистка</span>
+              </div>
+              <div class="review-card__rating">⭐⭐⭐⭐⭐</div>
+            </div>
+            <p>Регулярно хожу в Интан на чистку зубов по протоколу GBT. Процедура очень бережная, убирает весь пигментированный налет от кофе. Зубы после нее гладкие и блестящие.</p>
+          </div>
+          <div class="review-card reveal">
+            <div class="review-card__header">
+              <div class="review-card__meta">
+                <strong>Гульзада Р.</strong>
+                <span>Детский прием</span>
+              </div>
+              <div class="review-card__rating">⭐⭐⭐⭐⭐</div>
+            </div>
+            <p>Привела сына 5 лет на первое лечение. Он даже не понял, что ему сделали укол — доктор так профессионально заговорила зубы и превратила все в игру. Спасибо огромное!</p>
+          </div>
+          <div class="review-card reveal">
+            <div class="review-card__header">
+              <div class="review-card__meta">
+                <strong>Камиль А.</strong>
+                <span>Сложное протезирование</span>
+              </div>
+              <div class="review-card__rating">⭐⭐⭐⭐⭐</div>
+            </div>
+            <p>Выражаю благодарность всей команде клиники Интан в Оше за восстановление моей улыбки короной из диоксида циркония. Премиальный дизайн интерьера и заботливые менеджеры.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery section" id="gallery">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">Интерьер и оснащение</span>
+        <h2 class="section-title">Визуальная экскурсия по <em>клинике</em></h2>
+        <p class="section-sub">Посмотрите на наши просторные стильные кабинеты и передовое медицинское оборудование.</p>
+      </div>
+      <div class="gallery__grid">
+        <div class="gallery__item reveal">
+          <div class="gallery__placeholder">
+            <span class="gallery__icon">🛋️</span>
+            <strong>Зона ресепшен и ожидания</strong>
+            <span class="gallery__badge">Премиум комфорт</span>
+          </div>
+        </div>
+        <div class="gallery__item reveal">
+          <div class="gallery__placeholder">
+            <span class="gallery__icon">🔬</span>
+            <strong>Лечебный кабинет</strong>
+            <span class="gallery__badge">Дентальные микроскопы</span>
+          </div>
+        </div>
+        <div class="gallery__item reveal">
+          <div class="gallery__placeholder">
+            <span class="gallery__icon">🇩🇪</span>
+            <strong>Оборудование</strong>
+            <span class="gallery__badge">Немецкие установки</span>
+          </div>
+        </div>
+        <div class="gallery__item reveal">
+          <div class="gallery__placeholder">
+            <span class="gallery__icon">🧒</span>
+            <strong>Детский кабинет</strong>
+            <span class="gallery__badge">Адаптационная зона</span>
+          </div>
+        </div>
+        <div class="gallery__item reveal">
+          <div class="gallery__placeholder">
+            <span class="gallery__icon">📸</span>
+            <strong>3D-Диагностика</strong>
+            <span class="gallery__badge">Компьютерный томограф</span>
+          </div>
+        </div>
+        <div class="gallery__item reveal">
+          <div class="gallery__placeholder">
+            <span class="gallery__icon">🧼</span>
+            <strong>Стерилизационный блок</strong>
+            <span class="gallery__badge">Стандарты ISO</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq section" id="faq">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">Вопросы и ответы</span>
+        <h2 class="section-title">Часто задаваемые <em>вопросы</em></h2>
+        <p class="section-sub">Собрали полезные развернутые ответы на вопросы наших будущих пациентов.</p>
+      </div>
+      <div class="faq__list">
+        <div class="faq__item reveal">
+          <button class="faq__trigger">
+            <span>Больно ли проводить имплантацию зубов?</span>
+            <span class="faq__icon">+</span>
+          </button>
+          <div class="faq__content">
+            <p>Нет, процедура абсолютно безболезненна. Имплантация проводится под мощной местной анестезией, которая полностью блокирует чувствительность. По ощущениям это намного проще и комфортнее, чем стандартное лечение глубокого кариеса.</p>
+          </div>
+        </div>
+        <div class="faq__item reveal">
+          <button class="faq__trigger">
+            <span>Как долго держится результат отбеливания Zoom 4?</span>
+            <span class="faq__icon">+</span>
+          </button>
+          <div class="faq__content">
+            <p>При соблюдении базовых рекомендаций врача и «белой диеты» в первые дни, эффект белоснежной улыбки сохраняется от 2 до 5 лет. Для продления результата рекомендуется делать профессиональную гигиену раз в полгода.</p>
+          </div>
+        </div>
+        <div class="faq__item reveal">
+          <button class="faq__trigger">
+            <span>Предоставляется ли гарантия на пломбы и коронки?</span>
+            <span class="faq__icon">+</span>
+          </button>
+          <div class="faq__content">
+            <p>Да, наша клиника предоставляет официальную письменную гарантию на все терапевтические и ортопедические работы. Мы уверены в качестве используемых материалов и профессионализме наших специалистов.</p>
+          </div>
+        </div>
+        <div class="faq__item reveal">
+          <button class="faq__trigger">
+            <span>В каком возрасте лучше всего ставить брекеты ребенку?</span>
+            <span class="faq__icon">+</span>
+          </button>
+          <div class="faq__content">
+            <p>Первый плановый осмотр ортодонта рекомендуется пройти в возрасте 6-7 лет, когда начинается смена зубов. Установку полноценных брекет-систем обычно проводят после полного прорезывания постоянных зубов в 12-14 лет.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contacts section" id="contacts">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">Обратная связь</span>
+        <h2 class="section-title">Наши <em>контакты</em></h2>
+        <p class="section-sub">Свяжитесь с нами любым удобным способом или посетите нашу клинику в Оше.</p>
+      </div>
+      <div class="contacts__grid">
+        <div class="contacts__info reveal">
+          <div class="contacts__block">
+            <h3>📍 Адрес клиники</h3>
+            <p>Кыргызстан, г. Ош, ул. Аскар Шакирова, 271</p>
+          </div>
+          <div class="contacts__block">
+            <h3>📞 Телефоны</h3>
+            <p><a href="tel:+996500000000" class="contacts__link">+996 500 000 000</a></p>
+            <p><a href="tel:+996700000000" class="contacts__link">+996 700 000 000</a></p>
+          </div>
+          <div class="contacts__block">
+            <h3>✉️ Электронная почта</h3>
+            <p><a href="mailto:info@intan.kg" class="contacts__link">info@intan.kg</a></p>
+          </div>
+          <div class="contacts__block">
+            <h3>🕒 График работы</h3>
+            <p>Понедельник — Суббота: 09:00 – 18:00</p>
+            <p>Воскресенье: Выходной день</p>
+          </div>
+        </div>
+        <div class="contacts__map reveal">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3032.5516900220675!2d72.81243767655073!3d40.52943264906041!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38bdae9c997321eb%3A0x6bda19f56b9bf6ad!2zMjcxIEFza2FyIFNoYWtpcm92IFN0LCBPc2gsIEt5cmd5enN0YW4!5e0!3m2!1sen!2skg!4v1717272891341!5m2!1sen!2skg" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <a href="#" class="logo">
+            <span class="logo__icon">🦷</span>
+            <span class="logo__text">Интан</span>
+          </a>
+          <p>Премиальные стандарты заботы о вашей улыбке в городе Ош. Современное цифровое оборудование, опытная команда врачей и гарантия безопасности.</p>
+        </div>
+        <div class="footer__links">
+          <h4>Навигация</h4>
+          <ul>
+            <li><a href="#advantages">Преимущества</a></li>
+            <li><a href="#services">Наши услуги</a></li>
+            <li><a href="#doctors">Наши врачи</a></li>
+            <li><a href="#reviews">Отзывы пациентов</a></li>
+          </ul>
+        </div>
+        <div class="footer__links">
+          <h4>Пациентам</h4>
+          <ul>
+            <li><a href="#appointment">Онлайн запись</a></li>
+            <li><a href="#faq">Частые вопросы</a></li>
+            <li><a href="#contacts">Контакты и карта</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>© 2026 Стоматологическая клиника «Интан». Все права защищены.</p>
+        <p>Разработано в соответствии с международными медицинскими стандартами.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="floating-btns">
+    <a href="https://wa.me/996500000000" target="_blank" class="float-btn float-btn--wa" aria-label="Связаться через WhatsApp">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.455L0 24zm6.59-4.846c1.66.986 3.292 1.493 4.945 1.495 5.482 0 9.943-4.44 9.947-9.925.002-2.657-1.032-5.154-2.912-7.034C16.746 1.815 14.25 .78 11.6 .78 6.12 .78 1.66 5.22 1.656 10.705c-.001 1.739.462 3.426 1.34 4.933l-.973 3.551 3.624-.951zM17.92 15.3c-.3-.15-1.77-.874-2.046-.974-.276-.1-.477-.15-.677.15-.2.3-.774.974-.95 1.174-.175.2-.351.224-.651.074-.3-.15-1.265-.467-2.41-1.487-.89-.794-1.49-1.775-1.665-2.074-.175-.3-.019-.463.13-.612.135-.133.3-.35.45-.525.15-.175.2-.3.3-.5.1-.2.05-.375-.025-.525-.075-.15-.677-1.633-.926-2.233-.242-.583-.488-.504-.677-.514-.175-.008-.376-.01-.577-.01-.2 0-.527.075-.802.375-.276.3-1.052 1.026-1.052 2.5 0 1.473 1.072 2.896 1.222 3.096.15.2 2.11 3.22 5.11 4.516.714.308 1.272.492 1.707.63.717.228 1.368.196 1.883.119.574-.085 1.77-.724 2.02-1.425.25-.7.25-1.3.175-1.425-.076-.125-.276-.2-.576-.35z"/></svg>
+    </a>
+    <a href="https://t.me/intan_osh" target="_blank" class="float-btn float-btn--tg" aria-label="Связаться через Telegram">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.624 4.743-1.624.156 0 .506.037.731.22.19.155.242.363.246.524.006.157-.004.53-.014.908z"/></svg>
+    </a>
+    <a href="#appointment" class="float-btn float-btn--appoint" id="floatingAppointBtn" aria-label="Записаться">📅</a>
+    <button class="scroll-top" id="scrollTopBtn" aria-label="Наверх">↑</button>
   </div>
-</div>
 
-<div class="toast-container" id="toastContainer"></div>
+  <div class="toast" id="formToast">
+    <div class="toast__icon">🎉</div>
+    <div class="toast__text">Спасибо за заявку! Мы свяжемся с вами в ближайшее время.</div>
+  </div>
 
-<script src="js/api.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/pages/dashboard.js"></script>
-<script src="js/pages/appointments.js"></script>
-<script src="js/pages/patients.js"></script>
-<script src="js/pages/services.js"></script>
-<script src="js/pages/finance.js"></script>
-<script src="js/admin.js"></script>
-<script src="sync.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
