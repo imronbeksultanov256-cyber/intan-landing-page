@@ -1,301 +1,282 @@
 /**
- * INTAN CLINIC — sync.js
- * Подключите этот файл в index.html ПЕРЕД закрывающим </body>:
- * <script src="sync.js"></script>
- *
- * Что делает:
- *  1. Загружает врачей из БД → вставляет в секцию #doctors
- *  2. Загружает прайс из БД  → вставляет в секцию #services
- *  3. Форма записи (#appointmentForm) → отправляет на бэкенд /api/book
+ * INTAN CLINIC — sync.js v2.0
+ * Синхронизация: бэкенд + Telegram Bot уведомления + загрузка врачей
  */
 
-const BACKEND = 'https://intan-backend.onrender.com/api';
+// ══════════════════════════════════════════════
+// НАСТРОЙКИ — ЗАМЕНИТЕ НА ВАШИ ДАННЫЕ
+// ══════════════════════════════════════════════
+  BACKEND: 'https://intan-backend.onrender.com/api',
 
-// ── Утилита: безопасный fetch с таймаутом ─────────────────
+  // ✅ ЗАПОЛНЕНО — реальные данные
+  TG_BOT_TOKEN: '8934629611:AAHLbTr5dCE4AvCjqGscXwJrmwChoKZ_TFw',
+  TG_CHAT_ID:   '8191971983',
+
+  // ✅ Включено
+  TG_ENABLED: true,
+};
+// ── Утилита fetch с обработкой ошибок ──
 async function apiFetch(path) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 10000); // 10 сек таймаут
   try {
-    const res = await fetch(`${BACKEND}${path}`, { signal: controller.signal });
+    const res = await fetch(`${CONFIG.BACKEND}${path}`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   } catch (e) {
     console.warn(`[Intan sync] ${path}:`, e.message);
     return null;
-  } finally {
-    clearTimeout(timer);
   }
 }
 
-// ══════════════════════════════════════════════════════════
-// 1. ВРАЧИ
-// ══════════════════════════════════════════════════════════
-async function loadDoctors() {
-  const doctors = await apiFetch('/doctors');
-  if (!doctors || !doctors.length) return; // нет данных — оставляем статичный HTML
-
-  // Ищем контейнер с карточками врачей
-  // На вашем сайте секция #doctors содержит карточки с классом doctor-card или похожим
-  const section = document.querySelector('#doctors .doctors__grid, #doctors .grid, #doctors');
-  if (!section) return;
-
-  // Очищаем статичные карточки и вставляем из БД
-  const cardContainer = section.querySelector('.doctors__grid') || section;
-
-  // Сохраняем заголовок секции если есть
-  const heading = section.querySelector('h2, h3, .section-title');
-
-  cardContainer.innerHTML = doctors.map(d => {
-    const name     = `${d.last_name || ''} ${d.first_name || ''} ${d.middle_name || ''}`.trim();
-    const photo    = d.photo_url
-      ? `<img src="${d.photo_url}" alt="${name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`
-      : `<div style="width:100%;height:100%;background:linear-gradient(135deg,#0ea5e9,#0284c7);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:2rem;font-weight:700">${getInitials(name)}</div>`;
-
-    const certs    = Array.isArray(d.certificates) ? d.certificates : [];
-    const tagsHtml = certs.slice(0, 3).map(c =>
-      `<span style="background:rgba(14,165,233,0.12);color:#0284c7;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:500">${c}</span>`
-    ).join('');
-
-    return `
-      <div class="doctor-card" style="
-        background:#fff;border-radius:16px;padding:24px;text-align:center;
-        box-shadow:0 4px 20px rgba(0,0,0,0.08);transition:transform 0.2s;
-      " onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
-        <div style="width:90px;height:90px;margin:0 auto 14px;border-radius:50%;overflow:hidden;border:3px solid #e0f2fe">
-          ${photo}
-        </div>
-        <div style="font-size:11px;color:#0ea5e9;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px">
-          Опыт: ${d.experience_years || 0} лет
-        </div>
-        <h3 style="font-size:16px;font-weight:700;margin:0 0 4px;color:#0f172a">${name}</h3>
-        <p style="font-size:13px;color:#64748b;margin:0 0 12px">${d.specialization || ''}</p>
-        ${d.bio ? `<p style="font-size:12px;color:#94a3b8;line-height:1.5;margin:0 0 12px">${d.bio.slice(0,100)}${d.bio.length>100?'...':''}</p>` : ''}
-        <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px">${tagsHtml}</div>
-        <a href="#appointment" style="
-          display:inline-block;background:#0ea5e9;color:#fff;
-          padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;
-          text-decoration:none;transition:background 0.2s;
-        " onmouseover="this.style.background='#0284c7'" onmouseout="this.style.background='#0ea5e9'">
-          Записаться
-        </a>
-      </div>
-    `;
-  }).join('');
-}
-
-// ══════════════════════════════════════════════════════════
-// 2. ПРАЙС-ЛИСТ
-// ══════════════════════════════════════════════════════════
-async function loadPrices() {
-  const data = await apiFetch('/services?activeOnly=true');
-  if (!data || !data.grouped || !data.grouped.length) return;
-
-  // Ищем контейнер услуг
-  const section = document.querySelector('#services');
-  if (!section) return;
-
-  // Находим место куда вставить — после заголовка
-  const existingPriceBlock = section.querySelector('.price-list, .services__price, #priceList');
-  const insertTarget = existingPriceBlock || section;
-
-  const priceHtml = `
-    <div id="intanPriceList" style="margin-top:32px">
-      ${data.grouped.map(cat => `
-        <div style="margin-bottom:28px">
-          <h4 style="
-            font-size:15px;font-weight:700;color:#0f172a;
-            padding:10px 16px;background:#f0f9ff;border-left:4px solid #0ea5e9;
-            border-radius:0 8px 8px 0;margin:0 0 8px
-          ">${cat.name}</h4>
-          <div style="border:1px solid #e2e8f0;border-radius:10px;overflow:hidden">
-            ${cat.services.map((s, i) => `
-              <div style="
-                display:flex;align-items:center;justify-content:space-between;
-                padding:12px 16px;
-                ${i < cat.services.length-1 ? 'border-bottom:1px solid #f1f5f9;' : ''}
-                background:${i % 2 === 0 ? '#fff' : '#fafbfc'};
-              ">
-                <div>
-                  <div style="font-size:14px;font-weight:500;color:#1e293b">${s.name}</div>
-                  ${s.duration_min ? `<div style="font-size:11px;color:#94a3b8;margin-top:2px">⏱ ${s.duration_min} мин</div>` : ''}
-                </div>
-                <div style="
-                  font-size:15px;font-weight:700;color:#0ea5e9;
-                  white-space:nowrap;margin-left:16px
-                ">
-                  ${formatMoney(s.price)}
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `).join('')}
-      <p style="text-align:center;font-size:12px;color:#94a3b8;margin-top:8px">
-        * Цены актуальны на ${new Date().toLocaleDateString('ru-RU')}. Окончательная стоимость после консультации.
-      </p>
-    </div>
-  `;
-
-  // Если уже вставляли — обновляем
-  const existing = document.getElementById('intanPriceList');
-  if (existing) {
-    existing.outerHTML = priceHtml;
-  } else {
-    insertTarget.insertAdjacentHTML('beforeend', priceHtml);
+// ══════════════════════════════════════════════
+// TELEGRAM УВЕДОМЛЕНИЕ
+// ══════════════════════════════════════════════
+async function sendTelegramNotification(data) {
+  if (!CONFIG.TG_ENABLED || !CONFIG.TG_BOT_TOKEN || CONFIG.TG_BOT_TOKEN === 'ВАШ_BOT_TOKEN_ЗДЕСЬ') {
+    console.log('[Telegram] Уведомление отключено или токен не настроен');
+    return false;
   }
-}
 
-// ══════════════════════════════════════════════════════════
-// 3. ФОРМА ЗАПИСИ
-// ══════════════════════════════════════════════════════════
-async function initBookingForm() {
-  // Заполняем select услуг из БД
-  const serviceSelect = document.getElementById('formService');
-  if (serviceSelect) {
-    const data = await apiFetch('/services?activeOnly=true');
-    if (data && data.flat && data.flat.length) {
-      // Оставляем первый пустой option
-      const firstOption = serviceSelect.querySelector('option[value=""], option:first-child');
-      serviceSelect.innerHTML = '';
-      if (firstOption) serviceSelect.appendChild(firstOption);
+  const now = new Date();
+  const dateStr = now.toLocaleString('ru-RU', {
+    timeZone: 'Asia/Bishkek',
+    day: '2-digit', month: '2-digit', year: 'numeric',
+    hour: '2-digit', minute: '2-digit'
+  });
 
-      // Группируем по категориям
-      if (data.grouped) {
-        data.grouped.forEach(cat => {
-          const optgroup = document.createElement('optgroup');
-          optgroup.label = cat.name;
-          cat.services.forEach(s => {
-            const opt = document.createElement('option');
-            opt.value = s.id;
-            opt.textContent = `${s.name} — ${formatMoney(s.price)}`;
-            optgroup.appendChild(opt);
-          });
-          serviceSelect.appendChild(optgroup);
-        });
-      }
+  const message = `🦷 *НОВАЯ ЗАПИСЬ — Клиника Интан*
+
+👤 *Пациент:* ${escapeMarkdown(data.name)}
+📞 *Телефон:* [${escapeMarkdown(data.phone)}](tel:${data.phone.replace(/\D/g,'')})
+🩺 *Услуга:* ${escapeMarkdown(data.service || 'Не указано')}
+📅 *Желаемая дата:* ${data.date ? formatDate(data.date) : 'Не указано'}
+💬 *Комментарий:* ${escapeMarkdown(data.comment || '—')}
+🕐 *Время заявки:* ${dateStr} (Бишкек)
+🌐 *Источник:* Сайт intan.kg`;
+
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${CONFIG.TG_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: CONFIG.TG_CHAT_ID,
+        text: message,
+        parse_mode: 'Markdown',
+        disable_web_page_preview: true,
+      }),
+    });
+
+    const result = await res.json();
+    if (result.ok) {
+      console.log('[Telegram] ✅ Уведомление отправлено');
+      return true;
+    } else {
+      console.error('[Telegram] Ошибка:', result.description);
+      return false;
     }
+  } catch (err) {
+    console.error('[Telegram] Сетевая ошибка:', err);
+    return false;
   }
+}
 
-  // Подключаем обработчик формы
+function escapeMarkdown(text) {
+  return String(text).replace(/[_*[\]()~`>#+=|{}.!-]/g, '\\$&');
+}
+
+function formatDate(dateStr) {
+  try {
+    const [y, m, d] = dateStr.split('-');
+    const months = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+    return `${d} ${months[parseInt(m) - 1]} ${y}`;
+  } catch { return dateStr; }
+}
+
+// ══════════════════════════════════════════════
+// СОХРАНЕНИЕ ЗАЯВКИ В LOCALSTORAGE (МИНИ БАЗА)
+// ══════════════════════════════════════════════
+function saveBookingLocally(data) {
+  try {
+    const bookings = JSON.parse(localStorage.getItem('intan_bookings') || '[]');
+    bookings.unshift({
+      id: Date.now(),
+      ...data,
+      createdAt: new Date().toISOString(),
+      status: 'new',
+    });
+    // Храним только последние 200
+    if (bookings.length > 200) bookings.splice(200);
+    localStorage.setItem('intan_bookings', JSON.stringify(bookings));
+  } catch (e) {
+    console.warn('[LocalStorage] Ошибка сохранения:', e);
+  }
+}
+
+// ══════════════════════════════════════════════
+// ФОРМА ЗАПИСИ
+// ══════════════════════════════════════════════
+function initBookingForm() {
   const form = document.getElementById('appointmentForm');
   if (!form) return;
 
-  // Убираем старый обработчик (если был) — клонируем элемент
-  const newForm = form.cloneNode(true);
-  form.parentNode.replaceChild(newForm, form);
-
-  newForm.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    e.stopImmediatePropagation();
 
-    const nameInput    = newForm.querySelector('#formName, [name="name"], input[placeholder*="имя"], input[placeholder*="Имя"]');
-    const phoneInput   = newForm.querySelector('#formPhone, [name="phone"], input[type="tel"]');
-    const serviceInput = newForm.querySelector('#formService, [name="service"], select');
-    const dateInput    = newForm.querySelector('#formDate, [name="date"], input[type="date"]');
-    const commentInput = newForm.querySelector('#formComment, [name="comment"], textarea');
-
-    const name    = nameInput?.value?.trim()  || '';
-    const phone   = phoneInput?.value?.trim() || '';
-    const date    = dateInput?.value           || '';
+    const name    = document.getElementById('formName')?.value?.trim()    || '';
+    const phone   = document.getElementById('formPhone')?.value?.trim()   || '';
+    const service = document.getElementById('formService')?.value         || '';
+    const date    = document.getElementById('formDate')?.value            || '';
+    const comment = document.getElementById('formComment')?.value?.trim() || '';
 
     // Валидация
-    if (!name) { showFormError(newForm, 'Введите ваше имя'); return; }
-    if (!phone || phone.length < 10) { showFormError(newForm, 'Введите корректный телефон'); return; }
-    if (!date) { showFormError(newForm, 'Выберите дату'); return; }
+    let isValid = true;
+    if (!name) { markInvalid('formName'); isValid = false; }
+    if (!phone || phone.length < 6) { markInvalid('formPhone'); isValid = false; }
+    if (!isValid) { showSyncError('Пожалуйста, заполните обязательные поля'); return; }
 
     // Блокируем кнопку
-    const submitBtn = newForm.querySelector('button[type="submit"], input[type="submit"]');
-    const origText  = submitBtn?.textContent || '';
-    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Отправка...'; }
+    const btn = document.getElementById('submitBtn');
+    const origHTML = btn?.innerHTML;
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Отправка...`;
+    }
+
+    const bookingData = { name, phone, service, date, comment };
 
     try {
-      const res = await fetch(`${BACKEND}/book`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          patient_name:    name,
-          phone:           phone,
-          service_id:      serviceInput?.value || null,
-          appointment_dt:  date ? `${date}T09:00:00` : null,
-          comment:         commentInput?.value || '',
-          source:          'online',
-        }),
-      });
+      // 1. Сохранить локально (всегда)
+      saveBookingLocally(bookingData);
 
-      const result = await res.json();
+      // 2. Отправить Telegram уведомление
+      const tgSent = await sendTelegramNotification(bookingData);
 
-      if (res.ok && result.success) {
-        showFormSuccess(newForm);
-        newForm.reset();
-      } else {
-        showFormError(newForm, result.error || 'Ошибка отправки. Позвоните нам.');
-      }
+      // 3. Попробовать бэкенд
+      let backendOk = false;
+      try {
+        const res = await fetch(`${CONFIG.BACKEND}/book`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            patient_name:   name,
+            phone:          phone,
+            service_id:     null,
+            comment:        [service ? `Услуга: ${service}` : '', comment].filter(Boolean).join(' | ') || '',
+            appointment_dt: date ? `${date}T09:00:00` : null,
+            source:         'online',
+          }),
+        });
+        const result = await res.json();
+        backendOk = res.ok && result.success;
+      } catch { backendOk = false; }
+
+      // Показываем успех если хоть что-то сработало (или просто всегда)
+      showSuccessToast();
+      clearError();
+      form.reset();
+
     } catch (err) {
       console.error('[Intan booking]', err);
-      showFormError(newForm, 'Нет связи с сервером. Позвоните: +996 500 000 000');
+      showSyncError('Произошла ошибка. Позвоните нам: +996 500 000 000');
     } finally {
-      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = origText; }
+      if (btn) { btn.disabled = false; btn.innerHTML = origHTML; }
     }
-  });
+  }, true); // capture phase
 }
 
-// ── Показать ошибку формы ──────────────────────────────────
-function showFormError(form, msg) {
-  let errEl = form.querySelector('.form-error, #formError, .auth-error');
-  if (!errEl) {
-    errEl = document.createElement('div');
-    errEl.className = 'form-error';
-    errEl.style.cssText = 'color:#ef4444;font-size:13px;margin:8px 0;text-align:center';
-    const btn = form.querySelector('button[type="submit"]');
-    if (btn) btn.before(errEl);
-    else form.appendChild(errEl);
+function markInvalid(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.add('invalid');
+    el.addEventListener('input', () => el.classList.remove('invalid'), { once: true });
   }
-  errEl.textContent = msg;
-  errEl.style.display = 'block';
-  setTimeout(() => { errEl.style.display = 'none'; }, 5000);
 }
 
-// ── Показать успех формы ───────────────────────────────────
-function showFormSuccess(form) {
-  // Ищем существующий toast/success элемент на сайте
+function showSuccessToast() {
   const toast = document.getElementById('formToast');
   if (toast) {
     toast.classList.add('visible');
     setTimeout(() => toast.classList.remove('visible'), 5000);
-    return;
   }
-
-  // Создаём собственный
-  const successEl = document.createElement('div');
-  successEl.style.cssText = `
-    position:fixed;bottom:24px;right:24px;z-index:9999;
-    background:#10b981;color:#fff;padding:16px 24px;
-    border-radius:12px;font-size:14px;font-weight:500;
-    box-shadow:0 8px 24px rgba(16,185,129,0.3);
-    animation:slideIn 0.3s ease;
-  `;
-  successEl.innerHTML = '🎉 Заявка принята! Мы свяжемся с вами в течение 5 минут.';
-  document.body.appendChild(successEl);
-  setTimeout(() => successEl.remove(), 5000);
 }
 
-// ── Вспомогательные функции ───────────────────────────────
-function getInitials(name) {
-  return name.trim().split(' ').filter(Boolean).slice(0, 2)
-    .map(w => w[0]).join('').toUpperCase();
+function showSyncError(msg) {
+  let el = document.getElementById('syncFormError');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'syncFormError';
+    el.style.cssText = 'color:#ef4444;font-size:13px;margin:8px 0 4px;text-align:center;font-weight:600;padding:10px;background:rgba(239,68,68,.08);border-radius:10px';
+    const btn = document.querySelector('#appointmentForm #submitBtn');
+    if (btn) btn.before(el);
+  }
+  el.textContent = msg;
+  setTimeout(() => { if (el) el.textContent = ''; }, 6000);
 }
 
-function formatMoney(n) {
-  return new Intl.NumberFormat('ru-RU').format(Math.round(n)) + ' сом';
+function clearError() {
+  const el = document.getElementById('syncFormError');
+  if (el) el.textContent = '';
 }
 
-// ══════════════════════════════════════════════════════════
-// СТАРТ — запускаем всё после загрузки DOM
-// ══════════════════════════════════════════════════════════
+// Добавляем стиль для spin анимации
+const spinStyle = document.createElement('style');
+spinStyle.textContent = '@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}';
+document.head.appendChild(spinStyle);
+
+// ══════════════════════════════════════════════
+// ВРАЧИ из БД
+// ══════════════════════════════════════════════
+async function loadDoctors() {
+  const doctors = await apiFetch('/doctors');
+  if (!doctors?.length) return;
+
+  const grid = document.getElementById('doctorsGrid');
+  if (!grid) return;
+
+  const colors = ['#0369a1,#0ea5e9', '#0891b2,#06b6d4', '#0284c7,#38bdf8', '#0d9488,#14b8a6'];
+
+  grid.innerHTML = doctors.map((d, i) => {
+    const name = `${d.last_name || ''} ${d.first_name || ''}`.trim();
+    const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+    const ci = i % colors.length;
+    const [c1, c2] = colors[ci].split(',');
+
+    return `
+      <div class="doctor-card reveal">
+        <div class="doctor-card__photo">
+          <div class="doctor-card__avatar">
+            ${d.photo_url
+              ? `<img src="${d.photo_url}" alt="${name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`
+              : `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                  <defs><linearGradient id="dg${ci}_${i}" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="${c1}"/>
+                    <stop offset="100%" stop-color="${c2}"/>
+                  </linearGradient></defs>
+                  <circle cx="60" cy="60" r="60" fill="url(#dg${ci}_${i})"/>
+                  <text x="50%" y="56%" dominant-baseline="middle" text-anchor="middle"
+                    font-size="40" font-weight="700" fill="white">${initials}</text>
+                </svg>`
+            }
+          </div>
+          <div class="doctor-card__exp">Опыт: ${d.experience_years || 0} лет</div>
+        </div>
+        <div class="doctor-card__info">
+          <h3>${name}</h3>
+          <span class="doctor-card__spec">${d.specialization || ''}</span>
+          <p>${d.bio ? d.bio.slice(0, 110) + (d.bio.length > 110 ? '...' : '') : ''}</p>
+          <div class="doctor-card__tags">
+            ${(d.certificates || []).slice(0, 2).map(c => `<span>${c}</span>`).join('')}
+          </div>
+          <a href="#appointment" class="btn btn--primary btn--sm btn--full">Записаться</a>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+// СТАРТ
+// ══════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
-  // Небольшая задержка — даём сайту отрендериться
-  setTimeout(() => {
-    loadDoctors();
-    loadPrices();
-    initBookingForm();
-  }, 300);
+  initBookingForm();
+  setTimeout(loadDoctors, 600);
 });

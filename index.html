@@ -4,50 +4,37 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Стоматологическая клиника Интан — Ош, Кыргызстан</title>
-  <meta name="description" content="Стоматологическая клиника Интан в Оше — современное безболезненное лечение зубов, имплантация, отбеливание Zoom 4, виниры и брекеты. Запишитесь онлайн. Адрес: ул. Аскар Шакирова, 271." />
+  <meta name="description" content="Стоматологическая клиника Интан в Оше — современное безболезненное лечение зубов, имплантация, отбеливание Zoom 4, виниры и брекеты. Запишитесь онлайн." />
   <meta property="og:title" content="Стоматологическая клиника Интан — Ош" />
-  <meta property="og:description" content="Современная премиальная стоматология в городе Ош. Безболезненное лечение, опытные врачи, имплантация и гарантия качества." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://intan.kg" />
-  <meta property="og:image" content="https://intan.kg/og-image.jpg" />
   <meta name="theme-color" content="#0369a1" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦷</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "MedicalClinic",
-    "name": "Стоматологическая клиника Интан",
-    "description": "Премиальная стоматологическая клиника в городе Ош, Кыргызстан. Все виды лечения, опытные специалисты.",
-    "url": "https://intan.kg",
-    "telephone": "+996500000000",
-    "email": "info@intan.kg",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "ул. Аскар Шакирова, 271",
-      "addressLocality": "Ош",
-      "addressCountry": "KG"
-    },
-    "openingHours": "Mo-Sa 09:00-18:00",
-    "medicalSpecialty": "Dentistry"
-  }
-  </script>
 </head>
 <body>
+
+  <!-- CURSOR GLOW -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- PARTICLES -->
+  <canvas class="particles-canvas" id="particlesCanvas"></canvas>
 
   <header class="header" id="header">
     <div class="container header__inner">
       <a href="#" class="logo">
-        <span class="logo__icon">🦷</span>
+        <div class="logo__icon-wrap">
+          <span class="logo__icon">🦷</span>
+          <div class="logo__pulse"></div>
+        </div>
         <span class="logo__text">Интан</span>
       </a>
       <nav class="nav" id="nav">
         <a href="#advantages" class="nav__link">Преимущества</a>
         <a href="#services" class="nav__link">Услуги</a>
+        <a href="#prices" class="nav__link">Цены</a>
         <a href="#doctors" class="nav__link">Врачи</a>
         <a href="#reviews" class="nav__link">Отзывы</a>
         <a href="#gallery" class="nav__link">Галерея</a>
@@ -68,6 +55,7 @@
     </div>
   </header>
 
+  <!-- ═══════════════════ HERO ═══════════════════ -->
   <section class="hero" id="home">
     <div class="hero__bg">
       <div class="hero__mesh"></div>
@@ -75,6 +63,15 @@
       <div class="hero__orb hero__orb--1"></div>
       <div class="hero__orb hero__orb--2"></div>
       <div class="hero__orb hero__orb--3"></div>
+    </div>
+    <!-- Floating teeth particles -->
+    <div class="hero__floating-teeth">
+      <span class="ft ft--1">🦷</span>
+      <span class="ft ft--2">✨</span>
+      <span class="ft ft--3">🦷</span>
+      <span class="ft ft--4">💎</span>
+      <span class="ft ft--5">🦷</span>
+      <span class="ft ft--6">⭐</span>
     </div>
     <div class="container hero__inner">
       <div class="hero__content">
@@ -86,10 +83,10 @@
           Стоматологическая<br />клиника <em>Интан</em>
         </h1>
         <p class="hero__subtitle reveal">
-          Современная стоматология в городе Ош. Инновационные технологии, абсолютный комфорт и забота о здоровье вашей улыбки на высшем уровне.
+          Современная стоматология в городе Ош. Инновационные технологии, абсолютный комфорт и забота о здоровье вашей улыбки.
         </p>
         <div class="hero__actions reveal">
-          <a href="#appointment" class="btn btn--primary btn--lg">
+          <a href="#appointment" class="btn btn--primary btn--lg btn--shine">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 4H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM16 2v4M8 2v4M3 10h18"/></svg>
             Записаться на прием
           </a>
@@ -110,91 +107,133 @@
           </div>
           <div class="hero__stat-divider"></div>
           <div class="hero__stat">
-            <div><span class="hero__stat-num counter" data-target="100">0</span><span class="plus">%</span></div>
-            <span class="hero__stat-label">Гарантия качества</span>
+            <div><span class="hero__stat-num counter" data-target="5000">0</span><span class="plus">+</span></div>
+            <span class="hero__stat-label">Счастливых улыбок</span>
           </div>
         </div>
       </div>
       <div class="hero__visual reveal">
-        <div class="hero__card hero__card--main">
-          <div class="hero__card-icon">🦷</div>
-          <div class="hero__card-text">
-            <strong>Безболезненное лечение</strong>
-            <span>Цифровая анестезия STA</span>
+        <!-- Animated tooth 3D -->
+        <div class="tooth-3d">
+          <div class="tooth-3d__glow"></div>
+          <div class="tooth-3d__inner">
+            <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" class="tooth-3d__svg">
+              <defs>
+                <linearGradient id="tg1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+                  <stop offset="100%" stop-color="#dbeafe" stop-opacity="1"/>
+                </linearGradient>
+                <linearGradient id="tg2" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#0369a1" stop-opacity="0.15"/>
+                  <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.05"/>
+                </linearGradient>
+                <filter id="tshadow">
+                  <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0369a1" flood-opacity="0.25"/>
+                </filter>
+              </defs>
+              <!-- Main tooth shape -->
+              <path d="M100 20 C60 20 30 45 30 80 C30 100 35 115 40 130 C45 148 48 165 52 185 C55 200 62 215 75 215 C82 215 88 208 92 198 C95 190 97 178 100 178 C103 178 105 190 108 198 C112 208 118 215 125 215 C138 215 145 200 148 185 C152 165 155 148 160 130 C165 115 170 100 170 80 C170 45 140 20 100 20Z" fill="url(#tg1)" filter="url(#tshadow)" stroke="rgba(3,105,161,0.2)" stroke-width="1.5"/>
+              <!-- Highlight -->
+              <path d="M75 30 C60 38 48 52 45 68" stroke="white" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
+              <!-- Shading -->
+              <path d="M100 20 C60 20 30 45 30 80 C30 100 35 115 40 130 C45 148 48 165 52 185 C55 200 62 215 75 215 C82 215 88 208 92 198 C95 190 97 178 100 178" fill="url(#tg2)"/>
+              <!-- Gleam dots -->
+              <circle cx="68" cy="42" r="4" fill="white" opacity="0.8"/>
+              <circle cx="80" cy="32" r="2.5" fill="white" opacity="0.6"/>
+            </svg>
+            <div class="tooth-3d__sparkles">
+              <span class="sparkle s1">✦</span>
+              <span class="sparkle s2">✦</span>
+              <span class="sparkle s3">✦</span>
+              <span class="sparkle s4">✦</span>
+            </div>
           </div>
         </div>
         <div class="hero__card hero__card--float hero__card--float-1">
           <div class="hero__card-icon">✨</div>
           <div class="hero__card-text">
-            <strong>Эстетика</strong>
-            <span>Белоснежная улыбка</span>
+            <strong>Отбеливание Zoom 4</strong>
+            <span>До 8 тонов за визит</span>
           </div>
         </div>
         <div class="hero__card hero__card--float hero__card--float-2">
           <div class="hero__card-icon">🏆</div>
           <div class="hero__card-text">
-            <strong>Premium статус</strong>
-            <span>Мировые стандарты</span>
+            <strong>Гарантия качества</strong>
+            <span>На все работы</span>
           </div>
         </div>
-        <div class="hero__teeth-visual">
-          <svg viewBox="0 0 200 200" class="hero__svg" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="toothGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:var(--c-primary-2); stop-opacity: 0.2"/>
-                <stop offset="100%" style="stop-color:var(--c-accent); stop-opacity: 0.05"/>
-              </linearGradient>
-            </defs>
-            <circle cx="100" cy="100" r="85" fill="url(#toothGrad)"/>
-            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="95">🦷</text>
-          </svg>
+        <div class="hero__card hero__card--float hero__card--float-3">
+          <div class="hero__card-icon">🦷</div>
+          <div class="hero__card-text">
+            <strong>Безболезненно</strong>
+            <span>Цифровая анестезия STA</span>
+          </div>
         </div>
       </div>
     </div>
+    <!-- Scroll indicator -->
+    <div class="hero__scroll">
+      <div class="hero__scroll-inner"></div>
+    </div>
   </section>
 
+  <!-- ═══════════════════ ADVANTAGES ═══════════════════ -->
   <section class="advantages section" id="advantages">
     <div class="container">
       <div class="section-head reveal">
         <span class="section-tag">Качество и инновации</span>
         <h2 class="section-title">Почему выбирают клинику <em>Интан</em></h2>
-        <p class="section-sub">Мы объединили передовые технологии и высочайший уровень сервиса для вашего комфорта.</p>
+        <p class="section-sub">Передовые технологии и высочайший уровень сервиса для вашего комфорта.</p>
       </div>
       <div class="advantages__grid">
         <div class="advantage-card reveal">
-          <div class="advantage-card__icon">⚡</div>
+          <div class="advantage-card__icon-wrap">
+            <div class="advantage-card__icon">⚡</div>
+          </div>
           <h3>Современное оборудование</h3>
-          <p>Использование сертифицированных 3D-томографов, дентальных микроскопов и лазерных установок ведущих брендов.</p>
+          <p>3D-томографы, дентальные микроскопы и лазерные установки ведущих мировых брендов.</p>
         </div>
         <div class="advantage-card reveal">
-          <div class="advantage-card__icon">👨‍⚕️</div>
+          <div class="advantage-card__icon-wrap">
+            <div class="advantage-card__icon">👨‍⚕️</div>
+          </div>
           <h3>Опытные специалисты</h3>
-          <p>Наши доктора регулярно проходят стажировки в Европе и странах Азии, обладая многолетним клиническим опытом.</p>
+          <p>Доктора регулярно проходят стажировки в Европе и Азии, многолетний клинический опыт.</p>
         </div>
         <div class="advantage-card reveal">
-          <div class="advantage-card__icon">💉</div>
+          <div class="advantage-card__icon-wrap">
+            <div class="advantage-card__icon">💉</div>
+          </div>
           <h3>Безболезненное лечение</h3>
-          <p>Применение компьютерной анестезии STA и седации позволяет полностью исключить страх и болевые ощущения.</p>
+          <p>Компьютерная анестезия STA и седация — полностью исключают страх и болевые ощущения.</p>
         </div>
         <div class="advantage-card reveal">
-          <div class="advantage-card__icon">🎯</div>
+          <div class="advantage-card__icon-wrap">
+            <div class="advantage-card__icon">🎯</div>
+          </div>
           <h3>Индивидуальный подход</h3>
-          <p>Составляем комплексный пошаговый план лечения на основе консилиума нескольких профильных специалистов.</p>
+          <p>Комплексный план лечения на основе консилиума нескольких профильных специалистов.</p>
         </div>
         <div class="advantage-card reveal">
-          <div class="advantage-card__icon">🏅</div>
+          <div class="advantage-card__icon-wrap">
+            <div class="advantage-card__icon">🏅</div>
+          </div>
           <h3>Гарантия качества</h3>
-          <p>Мы официально предоставляем расширенную юридическую гарантию на имплантацию и все виды протезирования.</p>
+          <p>Официальная письменная гарантия на имплантацию и все виды протезирования.</p>
         </div>
         <div class="advantage-card reveal">
-          <div class="advantage-card__icon">📱</div>
+          <div class="advantage-card__icon-wrap">
+            <div class="advantage-card__icon">📱</div>
+          </div>
           <h3>Удобная запись</h3>
-          <p>Мгновенное бронирование времени через сайт, вежливые напоминания и полное отсутствие очередей.</p>
+          <p>Онлайн-запись через сайт, уведомление в Telegram, напоминания и никаких очередей.</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ═══════════════════ SERVICES ═══════════════════ -->
   <section class="services section" id="services">
     <div class="container">
       <div class="section-head reveal">
@@ -209,7 +248,7 @@
             <div class="service-card__badge">Популярно</div>
           </div>
           <h3>Лечение кариеса</h3>
-          <p>Избавление от кариеса и пульпита под микроскопом с восстановлением анатомической формы зуба ультрасовременными материалами.</p>
+          <p>Под микроскопом с восстановлением анатомической формы зуба ультрасовременными материалами.</p>
           <a href="#appointment" class="service-card__link">Записаться →</a>
         </div>
         <div class="service-card reveal">
@@ -217,7 +256,7 @@
             <div class="service-card__icon">✨</div>
           </div>
           <h3>Профессиональная чистка</h3>
-          <p>Удаление налёта и камня по швейцарскому протоколу GBT с использованием AirFlow и бережной ультразвуковой полировки.</p>
+          <p>По швейцарскому протоколу GBT с использованием AirFlow и бережной ультразвуковой полировки.</p>
           <a href="#appointment" class="service-card__link">Записаться →</a>
         </div>
         <div class="service-card reveal">
@@ -225,7 +264,7 @@
             <div class="service-card__icon">🌟</div>
           </div>
           <h3>Отбеливание зубов</h3>
-          <p>Инновационная щадящая система Zoom 4. Осветление эмали до 8-10 тонов всего за один визит без повышения чувствительности.</p>
+          <p>Система Zoom 4. Осветление эмали до 8-10 тонов за один визит без повышения чувствительности.</p>
           <a href="#appointment" class="service-card__link">Записаться →</a>
         </div>
         <div class="service-card reveal">
@@ -234,7 +273,7 @@
             <div class="service-card__badge service-card__badge--premium">Premium</div>
           </div>
           <h3>Имплантация</h3>
-          <p>Восстановление утраченных зубов за 1 день с использованием премиальных имплантационных систем со стопроцентной приживаемостью.</p>
+          <p>Восстановление утраченных зубов за 1 день. Приживаемость 100% с гарантией на весь срок.</p>
           <a href="#appointment" class="service-card__link">Записаться →</a>
         </div>
         <div class="service-card reveal">
@@ -242,7 +281,7 @@
             <div class="service-card__icon">😁</div>
           </div>
           <h3>Брекет-системы</h3>
-          <p>Исправление прикуса любой сложности с помощью современных незаметных брекетов или прозрачных цифровых элайнеров.</p>
+          <p>Исправление прикуса с помощью незаметных брекетов или прозрачных цифровых элайнеров.</p>
           <a href="#appointment" class="service-card__link">Записаться →</a>
         </div>
         <div class="service-card reveal">
@@ -250,7 +289,7 @@
             <div class="service-card__icon">🧒</div>
           </div>
           <h3>Детская стоматология</h3>
-          <p>Лечение молочных зубов без сверления и боли в адаптационной игровой форме. Формируем только приятные ассоциации.</p>
+          <p>Лечение без боли в игровой форме. Формируем только положительные ассоциации с врачом.</p>
           <a href="#appointment" class="service-card__link">Записаться →</a>
         </div>
         <div class="service-card reveal">
@@ -258,7 +297,7 @@
             <div class="service-card__icon">🩹</div>
           </div>
           <h3>Удаление зубов</h3>
-          <p>Атравматичные и быстрые хирургические операции любого уровня сложности, включая удаление ретинированных зубов мудрости.</p>
+          <p>Атравматичные операции любой сложности, включая ретинированные зубы мудрости.</p>
           <a href="#appointment" class="service-card__link">Записаться →</a>
         </div>
         <div class="service-card reveal">
@@ -267,21 +306,300 @@
             <div class="service-card__badge service-card__badge--premium">Premium</div>
           </div>
           <h3>Протезирование</h3>
-          <p>Установка высокопрочных циркониевых коронок и тончайших керамических виниров E.max для создания идеальной улыбки.</p>
+          <p>Циркониевые коронки и керамические виниры E.max для создания идеальной улыбки.</p>
           <a href="#appointment" class="service-card__link">Записаться →</a>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ═══════════════════ PRICES ═══════════════════ -->
+  <section class="prices section" id="prices">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">Прозрачное ценообразование</span>
+        <h2 class="section-title">Цены на <em>услуги</em></h2>
+        <p class="section-sub">Честные цены без скрытых доплат. Точная стоимость — после осмотра врача.</p>
+      </div>
+
+      <!-- Category tabs -->
+      <div class="prices__tabs reveal">
+        <button class="prices__tab active" data-tab="therapy">🦷 Терапия</button>
+        <button class="prices__tab" data-tab="surgery">🩹 Хирургия</button>
+        <button class="prices__tab" data-tab="ortho">😁 Ортодонтия</button>
+        <button class="prices__tab" data-tab="prosthetics">👑 Протезирование</button>
+        <button class="prices__tab" data-tab="aesthetic">✨ Эстетика</button>
+        <button class="prices__tab" data-tab="children">🧒 Детская</button>
+      </div>
+
+      <!-- Therapy -->
+      <div class="prices__panel active" id="tab-therapy">
+        <div class="price-table reveal">
+          <div class="price-row price-row--head">
+            <span>Наименование услуги</span>
+            <span>Стоимость (сом)</span>
+          </div>
+          <div class="price-row">
+            <span>Консультация врача-стоматолога</span>
+            <span class="price-val"><em>Бесплатно</em></span>
+          </div>
+          <div class="price-row">
+            <span>Лечение кариеса (1 пов.) — световая пломба</span>
+            <span class="price-val">от 2 500 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Лечение кариеса (2 пов.) — световая пломба</span>
+            <span class="price-val">от 3 500 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Лечение кариеса (3 пов.) — световая пломба</span>
+            <span class="price-val">от 4 500 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Лечение пульпита (1 канал)</span>
+            <span class="price-val">от 5 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Лечение пульпита (2-3 канала)</span>
+            <span class="price-val">от 8 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Лечение периодонтита (1 канал)</span>
+            <span class="price-val">от 6 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Профессиональная чистка (AirFlow + УЗ)</span>
+            <span class="price-val">от 3 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Глубокое фторирование эмали</span>
+            <span class="price-val">от 1 500 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Реставрация зуба (скол, трещина)</span>
+            <span class="price-val">от 3 000 сом</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Surgery -->
+      <div class="prices__panel" id="tab-surgery">
+        <div class="price-table reveal">
+          <div class="price-row price-row--head">
+            <span>Наименование услуги</span>
+            <span>Стоимость (сом)</span>
+          </div>
+          <div class="price-row">
+            <span>Удаление простого зуба</span>
+            <span class="price-val">от 1 500 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Удаление сложного зуба (корни, дистопия)</span>
+            <span class="price-val">от 3 500 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Удаление зуба мудрости (простое)</span>
+            <span class="price-val">от 3 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Удаление зуба мудрости (хирургическое)</span>
+            <span class="price-val">от 7 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Имплантация 1 зуба (без коронки)</span>
+            <span class="price-val">от 45 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Имплантация All-on-4 (полная дуга)</span>
+            <span class="price-val">от 250 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Синус-лифтинг (открытый)</span>
+            <span class="price-val">от 35 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Резекция верхушки корня</span>
+            <span class="price-val">от 8 000 сом</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Orthodontics -->
+      <div class="prices__panel" id="tab-ortho">
+        <div class="price-table reveal">
+          <div class="price-row price-row--head">
+            <span>Наименование услуги</span>
+            <span>Стоимость (сом)</span>
+          </div>
+          <div class="price-row">
+            <span>Консультация ортодонта + цефалограмма</span>
+            <span class="price-val">от 2 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Металлические брекеты (стандарт) — полная дуга</span>
+            <span class="price-val">от 60 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Керамические брекеты — полная дуга</span>
+            <span class="price-val">от 90 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Сапфировые брекеты — полная дуга</span>
+            <span class="price-val">от 110 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Элайнеры (прозрачные капы) — курс</span>
+            <span class="price-val">от 120 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Ретейнер (1 шт.)</span>
+            <span class="price-val">от 5 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Ежемесячная коррекция (активация)</span>
+            <span class="price-val">от 1 500 сом</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prosthetics -->
+      <div class="prices__panel" id="tab-prosthetics">
+        <div class="price-table reveal">
+          <div class="price-row price-row--head">
+            <span>Наименование услуги</span>
+            <span>Стоимость (сом)</span>
+          </div>
+          <div class="price-row">
+            <span>Керамическая коронка E.max</span>
+            <span class="price-val">от 25 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Циркониевая коронка (монолитный цирконий)</span>
+            <span class="price-val">от 22 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Циркониевая коронка (облицованная)</span>
+            <span class="price-val">от 30 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Металлокерамическая коронка</span>
+            <span class="price-val">от 12 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Съёмный пластиночный протез (частичный)</span>
+            <span class="price-val">от 18 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Бюгельный протез</span>
+            <span class="price-val">от 35 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Нейлоновый (мягкий) протез</span>
+            <span class="price-val">от 25 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Культевая вкладка (металл)</span>
+            <span class="price-val">от 5 000 сом</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aesthetic -->
+      <div class="prices__panel" id="tab-aesthetic">
+        <div class="price-table reveal">
+          <div class="price-row price-row--head">
+            <span>Наименование услуги</span>
+            <span>Стоимость (сом)</span>
+          </div>
+          <div class="price-row">
+            <span>Отбеливание Zoom 4 (в кресле)</span>
+            <span class="price-val">от 18 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Домашнее отбеливание (капы + гель)</span>
+            <span class="price-val">от 8 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Керамический винир E.max (1 зуб)</span>
+            <span class="price-val">от 25 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Композитный венир (прямой)</span>
+            <span class="price-val">от 8 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Дизайн улыбки (Digital Smile Design)</span>
+            <span class="price-val">от 3 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Художественная реставрация (1 зуб)</span>
+            <span class="price-val">от 6 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Профессиональная чистка + полировка</span>
+            <span class="price-val">от 3 500 сом</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Children -->
+      <div class="prices__panel" id="tab-children">
+        <div class="price-table reveal">
+          <div class="price-row price-row--head">
+            <span>Наименование услуги</span>
+            <span>Стоимость (сом)</span>
+          </div>
+          <div class="price-row">
+            <span>Консультация детского стоматолога</span>
+            <span class="price-val"><em>Бесплатно</em></span>
+          </div>
+          <div class="price-row">
+            <span>Лечение кариеса молочного зуба</span>
+            <span class="price-val">от 1 800 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Лечение пульпита молочного зуба</span>
+            <span class="price-val">от 3 500 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Удаление молочного зуба</span>
+            <span class="price-val">от 900 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Серебрение зубов (1 зуб)</span>
+            <span class="price-val">от 500 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Герметизация фиссур (1 зуб)</span>
+            <span class="price-val">от 1 200 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Профессиональная чистка (детская)</span>
+            <span class="price-val">от 2 000 сом</span>
+          </div>
+          <div class="price-row">
+            <span>Ортодонтические пластины</span>
+            <span class="price-val">от 8 000 сом</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="prices__note reveal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        Цены носят ознакомительный характер. Точная стоимость определяется после осмотра врача. Действуют скидки для пенсионеров и детей.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ DOCTORS ═══════════════════ -->
   <section class="doctors section" id="doctors">
     <div class="container">
       <div class="section-head reveal">
         <span class="section-tag">Экспертиза</span>
         <h2 class="section-title">Наши выдающиеся <em>врачи</em></h2>
-        <p class="section-sub">Ваше здоровье в надежных руках сертифицированных экспертов с международным признанием.</p>
+        <p class="section-sub">Ваше здоровье в надёжных руках сертифицированных экспертов.</p>
       </div>
-      <div class="doctors__grid">
+      <div class="doctors__grid" id="doctorsGrid">
         <div class="doctor-card reveal">
           <div class="doctor-card__photo">
             <div class="doctor-card__avatar">
@@ -297,7 +615,7 @@
           <div class="doctor-card__info">
             <h3>Айгуль Мамытова</h3>
             <span class="doctor-card__spec">Главный врач · Терапевт-эндодонтист</span>
-            <p>Эксперт в области микроскопического лечения каналов зубов и сложной художественной реставрации.</p>
+            <p>Эксперт в области микроскопического лечения каналов и художественной реставрации зубов.</p>
             <div class="doctor-card__tags">
               <span>Эстетика</span><span>Микроскоп</span>
             </div>
@@ -314,12 +632,12 @@
                 <ellipse cx="60" cy="95" rx="30" ry="22" fill="rgba(255,255,255,0.9)"/>
               </svg>
             </div>
-            <div class="doctor-card__exp">Опыт: 15 лет</div>
+            <div class="doctor-card__exp">Опыт: 9 лет</div>
           </div>
           <div class="doctor-card__info">
             <h3>Бекзод Рахимов</h3>
-            <span class="doctor-card__spec">Челюстно-лицевой хирург · Имплантолог</span>
-            <p>Проводит сложнейшие операции по костной пластике, синус-лифтингу и тотальному восстановлению зубов.</p>
+            <span class="doctor-card__spec">Хирург · Имплантолог</span>
+            <p>Специалист по сложным хирургическим операциям и дентальной имплантации All-on-4.</p>
             <div class="doctor-card__tags">
               <span>Имплантация</span><span>Хирургия</span>
             </div>
@@ -336,14 +654,14 @@
                 <ellipse cx="60" cy="95" rx="30" ry="22" fill="rgba(255,255,255,0.9)"/>
               </svg>
             </div>
-            <div class="doctor-card__exp">Опыт: 9 лет</div>
+            <div class="doctor-card__exp">Опыт: 7 лет</div>
           </div>
           <div class="doctor-card__info">
             <h3>Нурбек Асанов</h3>
-            <span class="doctor-card__spec">Стоматолог-ортопед</span>
-            <p>Специализируется на создании идеальных «улыбок Голливуда» при помощи ультратонких виниров и коронок.</p>
+            <span class="doctor-card__spec">Ортопед · Эстетика улыбки</span>
+            <p>Мастер по виниров, коронок E.max и циркониевого протезирования. Digital Smile Design.</p>
             <div class="doctor-card__tags">
-              <span>Виниры</span><span>Протезирование</span>
+              <span>Виниры</span><span>Коронки</span>
             </div>
             <a href="#appointment" class="btn btn--primary btn--sm btn--full">Записаться</a>
           </div>
@@ -362,8 +680,8 @@
           </div>
           <div class="doctor-card__info">
             <h3>Елена Ким</h3>
-            <span class="doctor-card__spec">Врач-ортодонт</span>
-            <p>Применяет передовые 3D-технологии моделирования прикуса для эффективного выравнивания зубов.</p>
+            <span class="doctor-card__spec">Ортодонт</span>
+            <p>Опытный ортодонт по всем видам брекет-систем и прозрачным элайнерам Invisalign.</p>
             <div class="doctor-card__tags">
               <span>Брекеты</span><span>Элайнеры</span>
             </div>
@@ -374,42 +692,45 @@
     </div>
   </section>
 
+  <!-- ═══════════════════ APPOINTMENT ═══════════════════ -->
   <section class="appointment section" id="appointment">
     <div class="container">
-      <div class="appointment__grid">
+      <div class="appointment__inner">
         <div class="appointment__info reveal">
-          <span class="section-tag">Онлайн запись</span>
-          <h2 class="section-title">Сделайте первый шаг к идеальной <em>улыбке</em></h2>
-          <p>Заполните форму, выберите нужную медицинскую услугу и удобное время. Наш координатор свяжется с вами в течение 5 минут для подтверждения бронирования.</p>
-          <div class="appointment__contacts-list">
-            <div class="appointment__contact-item">
-              <span class="contact-item__icon">📞</span>
-              <div>
-                <strong>Телефон рецепции:</strong>
-                <span>+996 500 000 000</span>
-              </div>
+          <span class="section-tag">Запись онлайн</span>
+          <h2 class="section-title">Запишитесь на <em>прием</em></h2>
+          <p>Заполните форму — мы перезвоним и подтвердим удобное время в течение 15 минут. Уведомление мгновенно придёт в Telegram.</p>
+          <div class="appointment__features">
+            <div class="appoint-feat">
+              <span class="appoint-feat__icon">✅</span>
+              <span>Подтверждение за 15 минут</span>
             </div>
-            <div class="appointment__contact-item">
-              <span class="contact-item__icon">📍</span>
-              <div>
-                <strong>Наш точный адрес:</strong>
-                <span>г. Ош, ул. Аскар Шакирова, 271</span>
-              </div>
+            <div class="appoint-feat">
+              <span class="appoint-feat__icon">📱</span>
+              <span>Уведомление в Telegram</span>
+            </div>
+            <div class="appoint-feat">
+              <span class="appoint-feat__icon">🕐</span>
+              <span>Прием без очередей</span>
+            </div>
+            <div class="appoint-feat">
+              <span class="appoint-feat__icon">🎁</span>
+              <span>Первая консультация бесплатно</span>
             </div>
           </div>
         </div>
-        <div class="appointment__card reveal">
-          <form class="form" id="appointmentForm" novalidate>
+        <div class="appointment__form-wrap reveal">
+          <form class="appointment__form" id="appointmentForm" novalidate>
             <div class="form__group">
-              <label for="formName" class="form__label">Ваше имя</label>
-              <input type="text" id="formName" class="form__input" placeholder="Иван Иванов" required />
+              <label for="formName" class="form__label">Ваше имя *</label>
+              <input type="text" id="formName" class="form__input" placeholder="Айгуль Мамытова" required autocomplete="name" />
             </div>
             <div class="form__group">
-              <label for="formPhone" class="form__label">Номер телефона</label>
-              <input type="tel" id="formPhone" class="form__input" placeholder="+996 (555) 01-02-03" required />
+              <label for="formPhone" class="form__label">Номер телефона *</label>
+              <input type="tel" id="formPhone" class="form__input" placeholder="+996 (___) __-__-__" required autocomplete="tel" />
             </div>
             <div class="form__group">
-              <label for="formService" class="form__label">Выберите услугу</label>
+              <label for="formService" class="form__label">Направление лечения</label>
               <select id="formService" class="form__input form__select" required>
                 <option value="" disabled selected>Выберите направление</option>
                 <option value="Лечение кариеса">Лечение кариеса</option>
@@ -420,301 +741,151 @@
                 <option value="Детская стоматология">Детская стоматология</option>
                 <option value="Удаление зубов">Атравматичное удаление зуба</option>
                 <option value="Протезирование">Коронки / Виниры / Протезирование</option>
+                <option value="Консультация">Бесплатная консультация</option>
               </select>
             </div>
             <div class="form__group">
               <label for="formDate" class="form__label">Желаемая дата приема</label>
               <input type="date" id="formDate" class="form__input" required />
             </div>
-            <button type="submit" class="btn btn--primary btn--lg btn--full">Подтвердить запись онлайн</button>
+            <div class="form__group">
+              <label for="formComment" class="form__label">Комментарий (необязательно)</label>
+              <textarea id="formComment" class="form__input form__textarea" placeholder="Опишите вашу проблему или пожелания..."></textarea>
+            </div>
+            <button type="submit" class="btn btn--primary btn--lg btn--full btn--shine" id="submitBtn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+              Подтвердить запись онлайн
+            </button>
+            <p class="form__note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных</p>
           </form>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ═══════════════════ REVIEWS ═══════════════════ -->
   <section class="reviews section" id="reviews">
     <div class="container">
       <div class="section-head reveal">
         <span class="section-tag">Отзывы пациентов</span>
         <h2 class="section-title">Истории счастливых <em>улыбок</em></h2>
-        <p class="section-sub">Реальные отзывы людей, которые доверили здоровье своих зубов специалистам клиники «Интан».</p>
+        <p class="section-sub">Реальные отзывы людей, которые доверили здоровье своих зубов клинике «Интан».</p>
       </div>
       <div class="reviews__wrapper">
         <div class="reviews__grid">
-          <div class="review-card reveal">
-            <div class="review-card__header">
-              <div class="review-card__meta">
-                <strong>Мария К.</strong>
-                <span>Лечение кариеса</span>
-              </div>
-              <div class="review-card__rating">⭐⭐⭐⭐⭐</div>
-            </div>
-            <p>Лечила сложный кариес у Айгуль Мамытовой. Абсолютно не больно! Впервые в жизни я засыпала в кресле стоматолога. Очень благодарна за такое трепетное отношение.</p>
-          </div>
-          <div class="review-card reveal">
-            <div class="review-card__header">
-              <div class="review-card__meta">
-                <strong>Алибек Ж.</strong>
-                <span>Имплантация зубов</span>
-              </div>
-              <div class="review-card__rating">⭐⭐⭐⭐⭐</div>
-            </div>
-            <p>Ставил два импланта у Бекзода Рахимова. Операция прошла на удивление быстро, отёка практически не было. Доктор настоящий мастер своего дела, рекомендую клинику Интан!</p>
-          </div>
-          <div class="review-card reveal">
-            <div class="review-card__header">
-              <div class="review-card__meta">
-                <strong>Нургуль С.</strong>
-                <span>Отбеливание Zoom 4</span>
-              </div>
-              <div class="review-card__rating">⭐⭐⭐⭐⭐</div>
-            </div>
-            <p>Сделала отбеливание Zoom 4 перед свадьбой. Зубы стали идеально белыми, результат превзошел все ожидания! Чувствительности после процедуры не возникло.</p>
-          </div>
-          <div class="review-card reveal">
-            <div class="review-card__header">
-              <div class="review-card__meta">
-                <strong>Дмитрий П.</strong>
-                <span>Керамические виниры</span>
-              </div>
-              <div class="review-card__rating">⭐⭐⭐⭐⭐</div>
-            </div>
-            <p>Нурбек Асанов установил мне виниры на передние зубы. Это просто фантастическая ювелирная работа, выглядят как полностью свои натуральные зубы. Сервис люкс уровня.</p>
-          </div>
-          <div class="review-card reveal">
-            <div class="review-card__header">
-              <div class="review-card__meta">
-                <strong>Айжамал М.</strong>
-                <span>Исправление прикуса</span>
-              </div>
-              <div class="review-card__rating">⭐⭐⭐⭐⭐</div>
-            </div>
-            <p>Прохожу лечение на брекетах у Елены Ким. Уже спустя 4 месяца вижу колоссальную разницу, зубы заметно выровнялись. Каждое посещение клиники приносит радость.</p>
-          </div>
-          <div class="review-card reveal">
-            <div class="review-card__header">
-              <div class="review-card__meta">
-                <strong>Эльдияр Т.</strong>
-                <span>Профессиональная чистка</span>
-              </div>
-              <div class="review-card__rating">⭐⭐⭐⭐⭐</div>
-            </div>
-            <p>Регулярно хожу в Интан на чистку зубов по протоколу GBT. Процедура очень бережная, убирает весь пигментированный налет от кофе. Зубы после нее гладкие и блестящие.</p>
-          </div>
-          <div class="review-card reveal">
-            <div class="review-card__header">
-              <div class="review-card__meta">
-                <strong>Гульзада Р.</strong>
-                <span>Детский прием</span>
-              </div>
-              <div class="review-card__rating">⭐⭐⭐⭐⭐</div>
-            </div>
-            <p>Привела сына 5 лет на первое лечение. Он даже не понял, что ему сделали укол — доктор так профессионально заговорила зубы и превратила все в игру. Спасибо огромное!</p>
-          </div>
-          <div class="review-card reveal">
-            <div class="review-card__header">
-              <div class="review-card__meta">
-                <strong>Камиль А.</strong>
-                <span>Сложное протезирование</span>
-              </div>
-              <div class="review-card__rating">⭐⭐⭐⭐⭐</div>
-            </div>
-            <p>Выражаю благодарность всей команде клиники Интан в Оше за восстановление моей улыбки короной из диоксида циркония. Премиальный дизайн интерьера и заботливые менеджеры.</p>
-          </div>
+          <div class="review-card reveal"><div class="review-card__header"><div class="review-card__avatar">МК</div><div class="review-card__meta"><strong>Мария К.</strong><span>Лечение кариеса</span></div><div class="review-card__rating">⭐⭐⭐⭐⭐</div></div><p>Лечила сложный кариес у Айгуль Мамытовой. Абсолютно не больно! Впервые в жизни засыпала в кресле стоматолога.</p></div>
+          <div class="review-card reveal"><div class="review-card__header"><div class="review-card__avatar">АЖ</div><div class="review-card__meta"><strong>Алибек Ж.</strong><span>Имплантация зубов</span></div><div class="review-card__rating">⭐⭐⭐⭐⭐</div></div><p>Ставил два импланта у Бекзода Рахимова. Операция прошла быстро, отёка не было. Настоящий мастер!</p></div>
+          <div class="review-card reveal"><div class="review-card__header"><div class="review-card__avatar">НС</div><div class="review-card__meta"><strong>Нургуль С.</strong><span>Отбеливание Zoom 4</span></div><div class="review-card__rating">⭐⭐⭐⭐⭐</div></div><p>Сделала отбеливание перед свадьбой. Зубы стали идеально белыми, без чувствительности после.</p></div>
+          <div class="review-card reveal"><div class="review-card__header"><div class="review-card__avatar">ДП</div><div class="review-card__meta"><strong>Дмитрий П.</strong><span>Керамические виниры</span></div><div class="review-card__rating">⭐⭐⭐⭐⭐</div></div><p>Нурбек установил виниры — ювелирная работа, выглядят как свои натуральные зубы. Люкс уровень.</p></div>
+          <div class="review-card reveal"><div class="review-card__header"><div class="review-card__avatar">АМ</div><div class="review-card__meta"><strong>Айжамал М.</strong><span>Брекет-системы</span></div><div class="review-card__rating">⭐⭐⭐⭐⭐</div></div><p>Лечусь на брекетах у Елены. Уже за 4 месяца зубы заметно выровнялись. Каждый визит приносит радость!</p></div>
+          <div class="review-card reveal"><div class="review-card__header"><div class="review-card__avatar">ЭТ</div><div class="review-card__meta"><strong>Эльдияр Т.</strong><span>Проф. чистка GBT</span></div><div class="review-card__rating">⭐⭐⭐⭐⭐</div></div><p>Регулярно хожу на чистку. Убирает весь налёт от кофе, зубы гладкие и блестящие. Рекомендую!</p></div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ═══════════════════ GALLERY ═══════════════════ -->
   <section class="gallery section" id="gallery">
     <div class="container">
       <div class="section-head reveal">
         <span class="section-tag">Интерьер и оснащение</span>
-        <h2 class="section-title">Визуальная экскурсия по <em>клинике</em></h2>
-        <p class="section-sub">Посмотрите на наши просторные стильные кабинеты и передовое медицинское оборудование.</p>
+        <h2 class="section-title">Экскурсия по <em>клинике</em></h2>
+        <p class="section-sub">Стильные кабинеты и передовое медицинское оборудование.</p>
       </div>
       <div class="gallery__grid">
-        <div class="gallery__item reveal">
-          <div class="gallery__placeholder">
-            <span class="gallery__icon">🛋️</span>
-            <strong>Зона ресепшен и ожидания</strong>
-            <span class="gallery__badge">Премиум комфорт</span>
-          </div>
-        </div>
-        <div class="gallery__item reveal">
-          <div class="gallery__placeholder">
-            <span class="gallery__icon">🔬</span>
-            <strong>Лечебный кабинет</strong>
-            <span class="gallery__badge">Дентальные микроскопы</span>
-          </div>
-        </div>
-        <div class="gallery__item reveal">
-          <div class="gallery__placeholder">
-            <span class="gallery__icon">🇩🇪</span>
-            <strong>Оборудование</strong>
-            <span class="gallery__badge">Немецкие установки</span>
-          </div>
-        </div>
-        <div class="gallery__item reveal">
-          <div class="gallery__placeholder">
-            <span class="gallery__icon">🧒</span>
-            <strong>Детский кабинет</strong>
-            <span class="gallery__badge">Адаптационная зона</span>
-          </div>
-        </div>
-        <div class="gallery__item reveal">
-          <div class="gallery__placeholder">
-            <span class="gallery__icon">📸</span>
-            <strong>3D-Диагностика</strong>
-            <span class="gallery__badge">Компьютерный томограф</span>
-          </div>
-        </div>
-        <div class="gallery__item reveal">
-          <div class="gallery__placeholder">
-            <span class="gallery__icon">🧼</span>
-            <strong>Стерилизационный блок</strong>
-            <span class="gallery__badge">Стандарты ISO</span>
-          </div>
-        </div>
+        <div class="gallery__item reveal"><div class="gallery__placeholder"><span class="gallery__icon">🛋️</span><strong>Зона ожидания</strong><span class="gallery__badge">Премиум комфорт</span></div></div>
+        <div class="gallery__item reveal"><div class="gallery__placeholder"><span class="gallery__icon">🔬</span><strong>Лечебный кабинет</strong><span class="gallery__badge">Дентальные микроскопы</span></div></div>
+        <div class="gallery__item reveal"><div class="gallery__placeholder"><span class="gallery__icon">🇩🇪</span><strong>Оборудование</strong><span class="gallery__badge">Немецкие установки</span></div></div>
+        <div class="gallery__item reveal"><div class="gallery__placeholder"><span class="gallery__icon">🧒</span><strong>Детский кабинет</strong><span class="gallery__badge">Адаптационная зона</span></div></div>
+        <div class="gallery__item reveal"><div class="gallery__placeholder"><span class="gallery__icon">📸</span><strong>3D-Диагностика</strong><span class="gallery__badge">Компьютерный томограф</span></div></div>
+        <div class="gallery__item reveal"><div class="gallery__placeholder"><span class="gallery__icon">🧼</span><strong>Стерилизация</strong><span class="gallery__badge">Стандарты ISO</span></div></div>
       </div>
     </div>
   </section>
 
+  <!-- ═══════════════════ FAQ ═══════════════════ -->
   <section class="faq section" id="faq">
     <div class="container">
       <div class="section-head reveal">
         <span class="section-tag">Вопросы и ответы</span>
         <h2 class="section-title">Часто задаваемые <em>вопросы</em></h2>
-        <p class="section-sub">Собрали полезные развернутые ответы на вопросы наших будущих пациентов.</p>
       </div>
       <div class="faq__list">
-        <div class="faq__item reveal">
-          <button class="faq__trigger">
-            <span>Больно ли проводить имплантацию зубов?</span>
-            <span class="faq__icon">+</span>
-          </button>
-          <div class="faq__content">
-            <p>Нет, процедура абсолютно безболезненна. Имплантация проводится под мощной местной анестезией, которая полностью блокирует чувствительность. По ощущениям это намного проще и комфортнее, чем стандартное лечение глубокого кариеса.</p>
-          </div>
-        </div>
-        <div class="faq__item reveal">
-          <button class="faq__trigger">
-            <span>Как долго держится результат отбеливания Zoom 4?</span>
-            <span class="faq__icon">+</span>
-          </button>
-          <div class="faq__content">
-            <p>При соблюдении базовых рекомендаций врача и «белой диеты» в первые дни, эффект белоснежной улыбки сохраняется от 2 до 5 лет. Для продления результата рекомендуется делать профессиональную гигиену раз в полгода.</p>
-          </div>
-        </div>
-        <div class="faq__item reveal">
-          <button class="faq__trigger">
-            <span>Предоставляется ли гарантия на пломбы и коронки?</span>
-            <span class="faq__icon">+</span>
-          </button>
-          <div class="faq__content">
-            <p>Да, наша клиника предоставляет официальную письменную гарантию на все терапевтические и ортопедические работы. Мы уверены в качестве используемых материалов и профессионализме наших специалистов.</p>
-          </div>
-        </div>
-        <div class="faq__item reveal">
-          <button class="faq__trigger">
-            <span>В каком возрасте лучше всего ставить брекеты ребенку?</span>
-            <span class="faq__icon">+</span>
-          </button>
-          <div class="faq__content">
-            <p>Первый плановый осмотр ортодонта рекомендуется пройти в возрасте 6-7 лет, когда начинается смена зубов. Установку полноценных брекет-систем обычно проводят после полного прорезывания постоянных зубов в 12-14 лет.</p>
-          </div>
-        </div>
+        <div class="faq__item reveal"><button class="faq__trigger"><span>Больно ли проводить имплантацию зубов?</span><span class="faq__icon">+</span></button><div class="faq__content"><p>Нет, процедура абсолютно безболезненна. Имплантация проводится под мощной местной анестезией. По ощущениям намного проще, чем лечение глубокого кариеса.</p></div></div>
+        <div class="faq__item reveal"><button class="faq__trigger"><span>Как долго держится результат отбеливания Zoom 4?</span><span class="faq__icon">+</span></button><div class="faq__content"><p>При соблюдении рекомендаций врача эффект сохраняется от 2 до 5 лет. Рекомендуется профессиональная гигиена раз в полгода.</p></div></div>
+        <div class="faq__item reveal"><button class="faq__trigger"><span>Предоставляется ли гарантия на пломбы и коронки?</span><span class="faq__icon">+</span></button><div class="faq__content"><p>Да, клиника предоставляет официальную письменную гарантию на все терапевтические и ортопедические работы.</p></div></div>
+        <div class="faq__item reveal"><button class="faq__trigger"><span>В каком возрасте ставить брекеты ребенку?</span><span class="faq__icon">+</span></button><div class="faq__content"><p>Первый осмотр ортодонта — 6-7 лет. Полноценные брекеты — после прорезывания постоянных зубов в 12-14 лет.</p></div></div>
+        <div class="faq__item reveal"><button class="faq__trigger"><span>Можно ли записаться онлайн и изменить время?</span><span class="faq__icon">+</span></button><div class="faq__content"><p>Да! Запишитесь через форму на сайте — мы перезвоним и подтвердим время. Для переноса позвоните по номеру или напишите в Telegram.</p></div></div>
       </div>
     </div>
   </section>
 
+  <!-- ═══════════════════ CONTACTS ═══════════════════ -->
   <section class="contacts section" id="contacts">
     <div class="container">
       <div class="section-head reveal">
         <span class="section-tag">Обратная связь</span>
         <h2 class="section-title">Наши <em>контакты</em></h2>
-        <p class="section-sub">Свяжитесь с нами любым удобным способом или посетите нашу клинику в Оше.</p>
       </div>
       <div class="contacts__grid">
         <div class="contacts__info reveal">
-          <div class="contacts__block">
-            <h3>📍 Адрес клиники</h3>
-            <p>Кыргызстан, г. Ош, ул. Аскар Шакирова, 271</p>
-          </div>
-          <div class="contacts__block">
-            <h3>📞 Телефоны</h3>
-            <p><a href="tel:+996500000000" class="contacts__link">+996 500 000 000</a></p>
-            <p><a href="tel:+996700000000" class="contacts__link">+996 700 000 000</a></p>
-          </div>
-          <div class="contacts__block">
-            <h3>✉️ Электронная почта</h3>
-            <p><a href="mailto:info@intan.kg" class="contacts__link">info@intan.kg</a></p>
-          </div>
-          <div class="contacts__block">
-            <h3>🕒 График работы</h3>
-            <p>Понедельник — Суббота: 09:00 – 18:00</p>
-            <p>Воскресенье: Выходной день</p>
-          </div>
+          <div class="contacts__block"><h3>📍 Адрес</h3><p>Кыргызстан, г. Ош, ул. Аскар Шакирова, 271</p></div>
+          <div class="contacts__block"><h3>📞 Телефоны</h3><p><a href="tel:+996500000000" class="contacts__link">+996 500 000 000</a></p><p><a href="tel:+996700000000" class="contacts__link">+996 700 000 000</a></p></div>
+          <div class="contacts__block"><h3>✉️ Email</h3><p><a href="mailto:info@intan.kg" class="contacts__link">info@intan.kg</a></p></div>
+          <div class="contacts__block"><h3>🕒 График работы</h3><p>Понедельник — Суббота: 09:00 – 18:00</p><p>Воскресенье: Выходной</p></div>
         </div>
         <div class="contacts__map reveal">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3032.5516900220675!2d72.81243767655073!3d40.52943264906041!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38bdae9c997321eb%3A0x6bda19f56b9bf6ad!2zMjcxIEFza2FyIFNoYWtpcm92IFN0LCBPc2gsIEt5cmd5enN0YW4!5e0!3m2!1sen!2skg!4v1717272891341!5m2!1sen!2skg" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3032.5516900220675!2d72.81243767655073!3d40.52943264906041!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38bdae9c997321eb%3A0x6bda19f56b9bf6ad!2zMjcxIEFza2FyIFNoYWtpcm92IFN0LCBPc2gsIEt5cmd5enN0YW4!5e0!3m2!1sen!2skg!4v1717272891341!5m2!1sen!2skg" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ═══════════════════ FOOTER ═══════════════════ -->
   <footer class="footer">
     <div class="container">
       <div class="footer__top">
         <div class="footer__brand">
-          <a href="#" class="logo">
-            <span class="logo__icon">🦷</span>
-            <span class="logo__text">Интан</span>
-          </a>
-          <p>Премиальные стандарты заботы о вашей улыбке в городе Ош. Современное цифровое оборудование, опытная команда врачей и гарантия безопасности.</p>
+          <a href="#" class="logo"><span class="logo__icon">🦷</span><span class="logo__text">Интан</span></a>
+          <p>Премиальные стандарты заботы о вашей улыбке в Оше. Современное оборудование, опытная команда, гарантия.</p>
+          <div class="footer__social">
+            <a href="https://wa.me/996500000000" target="_blank" class="footer__social-link" aria-label="WhatsApp">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.455L0 24z"/></svg>
+            </a>
+            <a href="https://t.me/intan_osh" target="_blank" class="footer__social-link" aria-label="Telegram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.624 4.743-1.624z"/></svg>
+            </a>
+          </div>
         </div>
-        <div class="footer__links">
-          <h4>Навигация</h4>
-          <ul>
-            <li><a href="#advantages">Преимущества</a></li>
-            <li><a href="#services">Наши услуги</a></li>
-            <li><a href="#doctors">Наши врачи</a></li>
-            <li><a href="#reviews">Отзывы пациентов</a></li>
-          </ul>
-        </div>
-        <div class="footer__links">
-          <h4>Пациентам</h4>
-          <ul>
-            <li><a href="#appointment">Онлайн запись</a></li>
-            <li><a href="#faq">Частые вопросы</a></li>
-            <li><a href="#contacts">Контакты и карта</a></li>
-          </ul>
-        </div>
+        <div class="footer__links"><h4>Навигация</h4><ul><li><a href="#advantages">Преимущества</a></li><li><a href="#services">Услуги</a></li><li><a href="#prices">Цены</a></li><li><a href="#doctors">Врачи</a></li><li><a href="#reviews">Отзывы</a></li></ul></div>
+        <div class="footer__links"><h4>Пациентам</h4><ul><li><a href="#appointment">Онлайн запись</a></li><li><a href="#faq">Частые вопросы</a></li><li><a href="#contacts">Контакты и карта</a></li><li><a href="admin.html" style="opacity:0.4;font-size:12px">Администратор</a></li></ul></div>
       </div>
       <div class="footer__bottom">
         <p>© 2026 Стоматологическая клиника «Интан». Все права защищены.</p>
-        <p>Разработано в соответствии с международными медицинскими стандартами.</p>
+        <p>г. Ош, Кыргызстан</p>
       </div>
     </div>
   </footer>
 
+  <!-- ═══════════════════ FLOATING BUTTONS ═══════════════════ -->
   <div class="floating-btns">
-    <a href="https://wa.me/996500000000" target="_blank" class="float-btn float-btn--wa" aria-label="Связаться через WhatsApp">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.455L0 24zm6.59-4.846c1.66.986 3.292 1.493 4.945 1.495 5.482 0 9.943-4.44 9.947-9.925.002-2.657-1.032-5.154-2.912-7.034C16.746 1.815 14.25 .78 11.6 .78 6.12 .78 1.66 5.22 1.656 10.705c-.001 1.739.462 3.426 1.34 4.933l-.973 3.551 3.624-.951zM17.92 15.3c-.3-.15-1.77-.874-2.046-.974-.276-.1-.477-.15-.677.15-.2.3-.774.974-.95 1.174-.175.2-.351.224-.651.074-.3-.15-1.265-.467-2.41-1.487-.89-.794-1.49-1.775-1.665-2.074-.175-.3-.019-.463.13-.612.135-.133.3-.35.45-.525.15-.175.2-.3.3-.5.1-.2.05-.375-.025-.525-.075-.15-.677-1.633-.926-2.233-.242-.583-.488-.504-.677-.514-.175-.008-.376-.01-.577-.01-.2 0-.527.075-.802.375-.276.3-1.052 1.026-1.052 2.5 0 1.473 1.072 2.896 1.222 3.096.15.2 2.11 3.22 5.11 4.516.714.308 1.272.492 1.707.63.717.228 1.368.196 1.883.119.574-.085 1.77-.724 2.02-1.425.25-.7.25-1.3.175-1.425-.076-.125-.276-.2-.576-.35z"/></svg>
+    <a href="https://wa.me/996500000000" target="_blank" class="float-btn float-btn--wa" aria-label="WhatsApp">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.455L0 24zm6.59-4.846c1.66.986 3.292 1.493 4.945 1.495 5.482 0 9.943-4.44 9.947-9.925.002-2.657-1.032-5.154-2.912-7.034C16.746 1.815 14.25.78 11.6.78 6.12.78 1.66 5.22 1.656 10.705c-.001 1.739.462 3.426 1.34 4.933l-.973 3.551 3.624-.951z"/></svg>
     </a>
-    <a href="https://t.me/intan_osh" target="_blank" class="float-btn float-btn--tg" aria-label="Связаться через Telegram">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.624 4.743-1.624.156 0 .506.037.731.22.19.155.242.363.246.524.006.157-.004.53-.014.908z"/></svg>
+    <a href="https://t.me/intan_osh" target="_blank" class="float-btn float-btn--tg" aria-label="Telegram">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.624 4.743-1.624z"/></svg>
     </a>
     <a href="#appointment" class="float-btn float-btn--appoint" id="floatingAppointBtn" aria-label="Записаться">📅</a>
     <button class="scroll-top" id="scrollTopBtn" aria-label="Наверх">↑</button>
   </div>
 
+  <!-- TOAST -->
   <div class="toast" id="formToast">
     <div class="toast__icon">🎉</div>
-    <div class="toast__text">Спасибо за заявку! Мы свяжемся с вами в ближайшее время.</div>
+    <div class="toast__text">Заявка отправлена! Скоро свяжемся с вами. Уведомление отправлено в Telegram.</div>
   </div>
 
   <script src="script.js"></script>
+  <script src="sync.js"></script>
 </body>
 </html>
