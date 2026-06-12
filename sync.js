@@ -141,18 +141,9 @@ function initBookingForm() {
         console.error('[Intan backend] ❌ Сетевая ошибка:', backendErr.message);
       }
 
-      // ── WhatsApp Редирект ───────────────────
-      const msg = `Новая заявка с сайта!\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n🦷 Услуга: ${service}\n📅 Дата: ${date}${comment ? '\n💬 Комментарий: ' + comment : ''}`;
-      const waUrl = `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(msg)}`;
-
       showSuccessToast();
       clearError();
       form.reset();
-
-      // Открыть WhatsApp через 1.5 секунды
-      setTimeout(() => {
-        window.open(waUrl, '_blank');
-      }, 1500);
 
     } catch (err) {
       console.error('[Intan booking]', err);
