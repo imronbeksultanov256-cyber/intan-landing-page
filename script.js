@@ -220,10 +220,8 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', () => {
     if (window.scrollY > 500) {
       scrollTopBtn?.classList.add('visible');
-      floatingAppointBtn?.classList.add('visible-float');
     } else {
       scrollTopBtn?.classList.remove('visible');
-      floatingAppointBtn?.classList.remove('visible-float');
     }
   }, { passive: true });
   scrollTopBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));

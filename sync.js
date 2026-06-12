@@ -1,13 +1,13 @@
 /**
  * INTAN CLINIC — sync.js
- * Telegram Bot уведомления + бэкенд + localStorage
+ * WhatsApp уведомления + бэкенд + localStorage
  */
 
 const CONFIG = {
   BACKEND:      'https://intan-backend.onrender.com/api',
+  WHATSAPP:     '996999888332', // Ваш временный номер
   TG_BOT_TOKEN: '8934629611:AAHLbTr5dCE4AvCjqGscXwJrmwChoKZ_TFw',
-  TG_CHAT_ID:   '8191971983',
-  TG_ENABLED:   true,
+  TG_CHAT_ID:   '-1003994575627', // ID вашей группы
 };
 
 // ── Утилита fetch ──────────────────────────────
@@ -22,8 +22,8 @@ async function apiFetch(path) {
   }
 }
 
-// ── Telegram уведомление ───────────────────────
-async function sendTelegramNotification(data) {
+// ── Внутреннее уведомление для персонала (Telegram) ──
+async function sendInternalNotification(data) {
   const now = new Date();
   const dateStr = now.toLocaleString('ru-RU', {
     timeZone: 'Asia/Bishkek',
@@ -32,51 +32,25 @@ async function sendTelegramNotification(data) {
   });
 
   const text =
-    `🦷 НОВАЯ ЗАПИСЬ — Клиника Интан\n\n` +
+    `🦷 НОВАЯ ЗАЯВКА — Сайт\n\n` +
     `👤 Пациент: ${data.name}\n` +
     `📞 Телефон: ${data.phone}\n` +
     `🩺 Услуга: ${data.service || 'Не указано'}\n` +
-    `📅 Дата приёма: ${data.date ? formatDate(data.date) : 'Не указана (поставлена сегодня)'}\n` +
+    `📅 Желаемая дата: ${data.date || 'Не указана'}\n` +
     `💬 Комментарий: ${data.comment || '—'}\n` +
-    `🕐 Время заявки: ${dateStr} (Бишкек)\n` +
-    `🌐 Источник: Сайт intan.kg`;
+    `🕐 Время: ${dateStr}`;
 
   try {
-    const res = await fetch(
-      `https://api.telegram.org/bot${CONFIG.TG_BOT_TOKEN}/sendMessage`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: CONFIG.TG_CHAT_ID,
-          text
-        }),
-      }
-    );
-
-    const result = await res.json();
-    if (result.ok) {
-      console.log('[Telegram] ✅ Уведомление отправлено');
-      return true;
-    } else {
-      console.error('[Telegram] ❌ Ошибка API:', result.description);
-      return false;
-    }
+    await fetch(`https://api.telegram.org/bot${CONFIG.TG_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: CONFIG.TG_CHAT_ID, text }),
+    });
   } catch (err) {
-    console.error('[Telegram] ❌ Сетевая ошибка:', err);
-    return false;
+    console.error('[Notification Error]', err);
   }
 }
 
-function formatDate(dateStr) {
-  try {
-    const [y, m, d] = dateStr.split('-');
-    const months = ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
-    return `${d} ${months[parseInt(m) - 1]} ${y}`;
-  } catch { return dateStr; }
-}
-
-// ── localStorage ───────────────────────────────
 function saveBookingLocally(data) {
   try {
     const bookings = JSON.parse(localStorage.getItem('intan_bookings') || '[]');
@@ -134,7 +108,9 @@ function initBookingForm() {
 
     try {
       saveBookingLocally(bookingData);
-      await sendTelegramNotification(bookingData);
+      
+      // Фоновое уведомление для персонала (в Telegram группу)
+      sendInternalNotification(bookingData);
 
       // ── Бэкенд ──────────────────────────────
       try {
@@ -165,9 +141,18 @@ function initBookingForm() {
         console.error('[Intan backend] ❌ Сетевая ошибка:', backendErr.message);
       }
 
+      // ── WhatsApp Редирект ───────────────────
+      const msg = `Новая заявка с сайта!\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n🦷 Услуга: ${service}\n📅 Дата: ${date}${comment ? '\n💬 Комментарий: ' + comment : ''}`;
+      const waUrl = `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(msg)}`;
+
       showSuccessToast();
       clearError();
       form.reset();
+
+      // Открыть WhatsApp через 1.5 секунды
+      setTimeout(() => {
+        window.open(waUrl, '_blank');
+      }, 1500);
 
     } catch (err) {
       console.error('[Intan booking]', err);
